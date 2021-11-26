@@ -3,6 +3,7 @@ import logging
 from ..zephyr_session import ZephyrSession
 from .endpoints.test_cases import TestCaseEndpoints
 from .endpoints.projects import ProjectEndpoints
+from .endpoints.test_cycles import TestCycleEndpoints
 
 
 class CloudApiWrapper(object):
@@ -14,6 +15,10 @@ class CloudApiWrapper(object):
     @property
     def test_cases(self):
         return TestCaseEndpoints(self.session)
+
+    @property
+    def test_cycles(self):
+        return TestCycleEndpoints(self.session)
 
     @property
     def projects(self):
