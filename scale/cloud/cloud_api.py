@@ -5,6 +5,7 @@ from .endpoints.test_cases import TestCaseEndpoints
 from .endpoints.projects import ProjectEndpoints
 from .endpoints.test_cycles import TestCycleEndpoints
 from .endpoints.test_plans import TestPlanEndpoints
+from .endpoints.test_executions import TestExecutionEndpoints
 
 
 class CloudApiWrapper(object):
@@ -24,6 +25,10 @@ class CloudApiWrapper(object):
     @property
     def test_plans(self):
         return TestPlanEndpoints(self.session)
+
+    @property
+    def test_executions(self):
+        return TestExecutionEndpoints(self.session)
 
     @property
     def projects(self):
