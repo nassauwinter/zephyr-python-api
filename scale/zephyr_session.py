@@ -18,7 +18,7 @@ class ZephyrSession(object):
         return self.base_url + "/".join(args)
 
     def _request(self, method: str, endpoint: str, **kwargs):
-        self.logger.debug(f"{method.capitalize()} data to {endpoint=} and {kwargs}")
+        self.logger.debug(f"{method.capitalize()} data: {endpoint=} and {kwargs}")
         url = self._create_url(endpoint)
         response = self.s.request(method=method, url=url, **kwargs)
         result = response.json() if response.content else ""
