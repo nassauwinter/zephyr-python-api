@@ -1,6 +1,7 @@
 import logging
 
 from requests import Session
+from urllib.parse import urlparse, parse_qs
 
 
 DEFAULT_BASE_URL = "https://api.zephyrscale.smartbear.com/v2/"
@@ -52,5 +53,6 @@ class ZephyrSession(object):
                 yield value
             if response.get("isLast") is True:
                 break
-            params["startAt"] = response.get("next")
+            params_str = urlparse(response.get("next")).query
+            params.update(parse_qs(params_str))
         return
