@@ -108,8 +108,6 @@ class TestCaseEndpoints:
         return self.session.get_paginated(f"testcases/{test_case_key}/teststeps", params=kwargs)
 
     def post_test_steps(self, test_case_key: str, mode: str, items: list):
-        if mode not in ["APPEND", "OVERWRITE"]:
-            raise ValueError("'mode' must be either 'APPEND' or 'OVERWRITE'")
         json = {"mode": mode,
                 "items": items}
         return self.session.post(f"testcases/{test_case_key}/teststeps", json=json)
