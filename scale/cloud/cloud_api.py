@@ -41,5 +41,13 @@ class CloudApiWrapper(object):
         return StatusEndpoints(self.session)
 
     @property
+    def priorities(self):
+        return PriorityEndpoints(self.session)
+
+    @property
+    def environments(self):
+        return EnvironmentEndpoints(self.session)
+
+    @property
     def projects(self):
         return ProjectEndpoints(self.session)
