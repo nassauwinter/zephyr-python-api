@@ -3,6 +3,7 @@ import logging
 from ..zephyr_session import ZephyrSession
 from scale.cloud.endpoints import (EnvironmentEndpoints,
                                    FolderEndpoints,
+                                   HealthcheckEndpoints,
                                    LinkEndpoints,
                                    PriorityEndpoints,
                                    ProjectEndpoints,
@@ -58,3 +59,7 @@ class CloudApiWrapper(object):
     @property
     def links(self):
         return LinkEndpoints(self.session)
+
+    @property
+    def healthcheck(self):
+        return HealthcheckEndpoints(self.session)
