@@ -7,3 +7,4 @@ from .test_executions import TestExecutionEndpoints
 from .folders import FolderEndpoints
 from .statuses import StatusEndpoints
 from .priorities import PriorityEndpoints
+from .links import LinkEndpoints

@@ -1,8 +1,15 @@
 import logging
 
 from ..zephyr_session import ZephyrSession
-from scale.cloud.endpoints import (EnvironmentEndpoints, FolderEndpoints, PriorityEndpoints, ProjectEndpoints,
-                                   StatusEndpoints, TestCaseEndpoints,TestCycleEndpoints, TestExecutionEndpoints,
+from scale.cloud.endpoints import (EnvironmentEndpoints,
+                                   FolderEndpoints,
+                                   LinkEndpoints,
+                                   PriorityEndpoints,
+                                   ProjectEndpoints,
+                                   StatusEndpoints,
+                                   TestCaseEndpoints,
+                                   TestCycleEndpoints,
+                                   TestExecutionEndpoints,
                                    TestPlanEndpoints)
 
 
@@ -47,3 +54,7 @@ class CloudApiWrapper(object):
     @property
     def projects(self):
         return ProjectEndpoints(self.session)
+
+    @property
+    def links(self):
+        return LinkEndpoints(self.session)
