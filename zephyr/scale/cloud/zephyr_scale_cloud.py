@@ -1,7 +1,7 @@
 import logging
 
 from zephyr.scale.zephyr_session import ZephyrSession
-from zephyr.scale.cloud import CloudApiWrapper
+from zephyr.scale.cloud.cloud_api import CloudApiWrapper
 
 
 class ZephyrScaleCloud:
