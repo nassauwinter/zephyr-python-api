@@ -9,3 +9,4 @@ from .statuses import StatusEndpoints
 from .priorities import PriorityEndpoints
 from .links import LinkEndpoints
 from .healthcheck import HealthcheckEndpoints
+from .automations import AutomationEndpoints
