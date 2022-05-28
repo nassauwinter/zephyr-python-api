@@ -17,27 +17,29 @@ class ZephyrSession(object):
     def _create_url(self, *args):
         return self.base_url + "/".join(args)
 
-    def _request(self, method: str, endpoint: str, **kwargs):
+    def _request(self, method: str, endpoint: str, return_raw: bool = False, **kwargs):
         self.logger.debug(f"{method.capitalize()} data: {endpoint=} and {kwargs}")
         url = self._create_url(endpoint)
         response = self.s.request(method=method, url=url, **kwargs)
-        result = response.json() if response.content else ""
         if response.status_code < 400:
-            return result
+            if return_raw:
+                return response
+            else:
+                return response.json() if response.text else ""
         else:
-            raise Exception(f"Error {response.status_code}. Response: {result}")
+            raise Exception(f"Error {response.status_code}. Response: {response.content}")
 
-    def get(self, endpoint: str, params: dict = None):
-        return self._request("get", endpoint, params=params)
+    def get(self, endpoint: str, params: dict = None, **kwargs):
+        return self._request("get", endpoint, params=params, **kwargs)
 
-    def post(self, endpoint: str, json: dict = None):
-        return self._request("post", endpoint, json=json)
+    def post(self, endpoint: str, json: dict = None, **kwargs):
+        return self._request("post", endpoint, json=json, **kwargs)
 
-    def put(self, endpoint: str, json: dict = None):
-        return self._request("put", endpoint, json=json)
+    def put(self, endpoint: str, json: dict = None, **kwargs):
+        return self._request("put", endpoint, json=json, **kwargs)
 
-    def delete(self, endpoint: str):
-        return self._request("delete", endpoint)
+    def delete(self, endpoint: str, **kwargs):
+        return self._request("delete", endpoint, **kwargs)
 
     def get_paginated(self, endpoint, params=None):
         """Get paginated data"""
