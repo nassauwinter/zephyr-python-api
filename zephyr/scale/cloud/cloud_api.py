@@ -1,18 +1,18 @@
 import logging
 
 from ..zephyr_session import ZephyrSession
-from scale.cloud.endpoints import (AutomationEndpoints,
-                                   EnvironmentEndpoints,
-                                   FolderEndpoints,
-                                   HealthcheckEndpoints,
-                                   LinkEndpoints,
-                                   PriorityEndpoints,
-                                   ProjectEndpoints,
-                                   StatusEndpoints,
-                                   TestCaseEndpoints,
-                                   TestCycleEndpoints,
-                                   TestExecutionEndpoints,
-                                   TestPlanEndpoints)
+from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
+                                          EnvironmentEndpoints,
+                                          FolderEndpoints,
+                                          HealthcheckEndpoints,
+                                          LinkEndpoints,
+                                          PriorityEndpoints,
+                                          ProjectEndpoints,
+                                          StatusEndpoints,
+                                          TestCaseEndpoints,
+                                          TestCycleEndpoints,
+                                          TestExecutionEndpoints,
+                                          TestPlanEndpoints)
 
 
 class CloudApiWrapper(object):
