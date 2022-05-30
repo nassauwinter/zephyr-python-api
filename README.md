@@ -15,3 +15,7 @@ To be done:
 ### License
 
 This library is licensed under the Apache 2.0 License.
+
+### Links
+
+[Zephyr Scale Cloud API docs](https://support.smartbear.com/zephyr-scale-cloud/api-docs/)
