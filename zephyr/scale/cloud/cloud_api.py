@@ -1,6 +1,6 @@
 import logging
 
-from ..zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_session import ZephyrSession
 from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
                                           EnvironmentEndpoints,
                                           FolderEndpoints,
