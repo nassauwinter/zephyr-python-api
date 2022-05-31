@@ -4,11 +4,8 @@ from requests import Session
 from urllib.parse import urlparse, parse_qs
 
 
-DEFAULT_BASE_URL = "https://api.zephyrscale.smartbear.com/v2/"
-
-
 class ZephyrSession(object):
-    def __init__(self, token: str, base_url: str = DEFAULT_BASE_URL):
+    def __init__(self, token: str, base_url: str):
         self.base_url = base_url
         self.s = Session()
         self.s.headers.update({"Authorization": f"Bearer {token}"})
