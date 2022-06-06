@@ -24,3 +24,5 @@ This library is licensed under the Apache 2.0 License.
 ### Links
 
 [Zephyr Scale Cloud API docs](https://support.smartbear.com/zephyr-scale-cloud/api-docs/)
+
+[Zephyr Scale Server API docs](https://support.smartbear.com/zephyr-scale-server/api-docs/v1/)
