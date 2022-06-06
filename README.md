@@ -1,3 +1,6 @@
+# Zephyr-python-api
+
+### Project description
 This is a wrapper for Zephyr Scale (TM4J) REST API. This means you can interact with Zephyr Scale without GUI in a browser!
 
 NOTE: Currently only Scale Cloud wrappers are implemented. 
