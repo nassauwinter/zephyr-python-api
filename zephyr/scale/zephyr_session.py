@@ -4,12 +4,34 @@ from requests import Session
 from urllib.parse import urlparse, parse_qs
 
 
+INIT_SESSION_MSG = "Initialize session by {}"
+
+
 class ZephyrSession(object):
-    def __init__(self, token: str, base_url: str):
+    def __init__(self, base_url, token=None, username=None, password=None, cookies=None):
+        """
+        Zephyr Scale basic session object.
+
+        :param base_url: url to make requests to
+        :param token: auth token
+        :param username: username
+        :param password: password
+        :param cookies: cookie dict
+        """
         self.base_url = base_url
         self.s = Session()
-        self.s.headers.update({"Authorization": f"Bearer {token}"})
         self.logger = logging.getLogger(__name__)
+        if token:
+            self.logger.debug(INIT_SESSION_MSG.format("token"))
+            self.s.headers.update({"Authorization": f"Bearer {token}"})
+        elif username and password:
+            self.logger.debug(INIT_SESSION_MSG.format("username and password"))
+            self.s.auth = (username, password)
+        elif cookies:
+            self.logger.debug(INIT_SESSION_MSG.format("cookies"))
+            self.s.cookies.update(cookies)
+        else:
+            raise Exception("Insufficient auth data")
 
     def _create_url(self, *args):
         return self.base_url + "/".join(args)
