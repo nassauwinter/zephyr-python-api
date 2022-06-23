@@ -2,7 +2,7 @@ import logging
 
 from zephyr.scale.zephyr_session import ZephyrSession
 from zephyr.scale.cloud.cloud_api import CloudApiWrapper
-
+from .testcase import TestCase, TestCases
 
 DEFAULT_BASE_URL = "https://api.zephyrscale.smartbear.com/v2/"
 
@@ -30,3 +30,15 @@ class ZephyrScale:
         else:
             raise Exception("API version should be either 'v1' (Server) or 'v2' (Cloud)")
         self.logger = logging.getLogger(__name__)
+
+    @property
+    def test_cases(self):
+        return TestCases(self.api)
+
+    def get_test_case(self, test_id):
+        """
+        Get Test case object based on test id
+
+        :param test_id: test id or test key
+        """
+        return TestCase(self.api, test_id)
