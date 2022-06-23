@@ -11,11 +11,42 @@ To be done:
 
 ### Installation
 
-```pip install zephyr-python-api```
+```
+pip install zephyr-python-api
+```
 
 ### Example usage
 
-> (to be done)
+Zephyr Cloud auth:
+```
+from zephyr import ZephyrScale
+
+zscale = ZephyrScale(token=<your_token>)
+```
+
+Zephyr Server (TM4J) auth:
+```
+from zephyr import API_V1, ZephyrScale
+
+# Auth can be made with Jira token
+auth = {"token": "<your_jira_token>"}
+
+# or with login and password (suggest using get_pass)
+auth = {"username": "<your_login>", "password": "<your_password>"}
+
+# or even session cookie dict
+auth = {"cookies": "<session_cookie_dict>"}
+
+zscale = ZephyrScale(api=API_V1, base_url=<your_base_url>, **auth)
+```
+
+Then it is possible to interact with api wrappers:
+```
+zapi = zscale.api
+
+all_test_cases = zapi.test_cases.get_test_cases()
+```
+
 
 ### License
 
