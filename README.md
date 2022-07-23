@@ -29,8 +29,8 @@ zscale = ZephyrScale(token=<your_token>)
 ```
 
 Zephyr Server (TM4J) auth:
-```python
-from zephyr import API_V1, ZephyrScale
+```
+from zephyr import ZephyrScale
 
 # Auth can be made with Jira token
 auth = {"token": "<your_jira_token>"}
@@ -41,7 +41,7 @@ auth = {"username": "<your_login>", "password": "<your_password>"}
 # or even session cookie dict
 auth = {"cookies": "<session_cookie_dict>"}
 
-zscale = ZephyrScale(api=API_V1, base_url=<your_base_url>, **auth)
+zscale = ZephyrScale.server_api(base_url=<your_base_url>, **auth)
 ```
 
 Then it is possible to interact with api wrappers:
