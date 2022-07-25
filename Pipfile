@@ -7,6 +7,9 @@ name = "pypi"
 requests = "*"
 
 [dev-packages]
+pytest = "*"
+tox = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.8"
