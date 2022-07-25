@@ -23,10 +23,10 @@ class ZephyrScale:
         base_url = DEFAULT_BASE_URL if not base_url else base_url
         session = ZephyrSession(base_url=base_url, **kwargs)
 
-        if api_version == API_V2:
+        if api_version.lower() == API_V2:
             self.api = CloudApiWrapper(session)
-        elif api_version == API_V1:
-            raise NotImplemented
+        elif api_version.lower() == API_V1:
+            raise NotImplementedError("Server api wrappers have not been implemented yet.")
         else:
-            raise Exception("API version should be either 'v1' (Server) or 'v2' (Cloud)")
+            raise ValueError("API version should be either 'v1' (Server) or 'v2' (Cloud)")
         self.logger = logging.getLogger(__name__)
