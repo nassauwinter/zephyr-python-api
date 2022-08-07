@@ -37,7 +37,7 @@ class ZephyrSession(object):
         return self.base_url + "/".join(args)
 
     def _request(self, method: str, endpoint: str, return_raw: bool = False, **kwargs):
-        self.logger.debug(f"{method.capitalize()} data: {endpoint=} and {kwargs}")
+        self.logger.debug(f"{method.capitalize()} data: endpoint={endpoint} and {kwargs}")
         url = self._create_url(endpoint)
         response = self.s.request(method=method, url=url, **kwargs)
         if response.status_code < 400:
@@ -62,7 +62,7 @@ class ZephyrSession(object):
 
     def get_paginated(self, endpoint, params=None):
         """Get paginated data"""
-        self.logger.debug(f"Get paginated data from {endpoint=} and {params=}")
+        self.logger.debug(f"Get paginated data from endpoint={endpoint} and params={params}")
         if params is None:
             params = {}
 
