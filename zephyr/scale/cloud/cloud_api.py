@@ -15,7 +15,7 @@ from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
                                           TestPlanEndpoints)
 
 
-class CloudApiWrapper(object):
+class CloudApiWrapper:
     """Zephyr Scale Cloud Api wrapper"""
     def __init__(self, session: ZephyrSession):
         self.session = session
