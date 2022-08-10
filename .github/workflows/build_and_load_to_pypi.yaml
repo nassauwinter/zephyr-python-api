@@ -1,0 +1,38 @@
+name: Building artifacts and load them to PYPI index
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  Build_release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          path: zephyr_source
+
+      - name: Update pip and install pipenv
+        run: |
+          pip install --upgrade pip
+          pip install pipenv
+          python --version
+          pip --version
+          pipenv --version
+
+      - name: Install python dependencies
+        run: |
+          cd ${{ github.workspace }}/zephyr_source/
+          pipenv install
+
+      - name: Build distribution archives
+        run: python3 -m build
+
+      - name: Upload archieves to PYPI.org
+        run: python3 -m twine upload -u ${{ secrets.api_user }} -p ${{ secrets.api_token }} dist/*
