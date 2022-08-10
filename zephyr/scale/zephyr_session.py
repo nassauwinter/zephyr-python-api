@@ -8,16 +8,16 @@ INIT_SESSION_MSG = "Initialize session by {}"
 
 
 class ZephyrSession:
-    def __init__(self, base_url, token=None, username=None, password=None, cookies=None):
-        """
-        Zephyr Scale basic session object.
+    """
+    Zephyr Scale basic session object.
 
-        :param base_url: url to make requests to
-        :param token: auth token
-        :param username: username
-        :param password: password
-        :param cookies: cookie dict
-        """
+    :param base_url: url to make requests to
+    :param token: auth token
+    :param username: username
+    :param password: password
+    :param cookies: cookie dict
+    """
+    def __init__(self, base_url, token=None, username=None, password=None, cookies=None):
         self.base_url = base_url
         self.s = Session()
         self.logger = logging.getLogger(__name__)
@@ -34,9 +34,11 @@ class ZephyrSession:
             raise Exception("Insufficient auth data")
 
     def _create_url(self, *args):
+        """Helper for URL creation"""
         return self.base_url + "/".join(args)
 
     def _request(self, method: str, endpoint: str, return_raw: bool = False, **kwargs):
+        """General request wrapper with logging and handling response"""
         self.logger.debug(f"{method.capitalize()} data: endpoint={endpoint} and {kwargs}")
         url = self._create_url(endpoint)
         response = self.s.request(method=method, url=url, **kwargs)
@@ -49,15 +51,19 @@ class ZephyrSession:
             raise Exception(f"Error {response.status_code}. Response: {response.content}")
 
     def get(self, endpoint: str, params: dict = None, **kwargs):
+        """Get request wrapper"""
         return self._request("get", endpoint, params=params, **kwargs)
 
     def post(self, endpoint: str, json: dict = None, **kwargs):
+        """Post request wrapper"""
         return self._request("post", endpoint, json=json, **kwargs)
 
     def put(self, endpoint: str, json: dict = None, **kwargs):
+        """Put request wrapper"""
         return self._request("put", endpoint, json=json, **kwargs)
 
     def delete(self, endpoint: str, **kwargs):
+        """Delete request wrapper"""
         return self._request("delete", endpoint, **kwargs)
 
     def get_paginated(self, endpoint, params=None):
