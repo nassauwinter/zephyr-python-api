@@ -19,8 +19,9 @@ class TestCaseEndpoints:
         return self.session.get_paginated("testcases", params=kwargs)
 
     def create_test_case(self, project_key: str, name: str, **kwargs):
-        """Creates a test case. Fields priorityName and statusName will be set to default values if not informed.
-        Default values are usually “Normal” for priorityName and “Draft” for statusName. All required test case custom
+        """Creates a test case. Fields priorityName and statusName will be set to
+        default values if not informed. Default values are usually “Normal”
+        for priorityName and “Draft” for statusName. All required test case custom
         fields should be present in the request.
 
         :param project_key: Jira project key
