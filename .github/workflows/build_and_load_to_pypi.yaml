@@ -15,8 +15,6 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v2
-        with:
-          path: zephyr_source
 
       - name: Update pip and install pipenv
         run: |
@@ -28,8 +26,9 @@ jobs:
 
       - name: Install python dependencies
         run: |
-          cd ${{ github.workspace }}/zephyr_source/
+          cd ${{ github.workspace }}/zephyr-python-api && ls
           pipenv install --dev
+          pipenv run pip list --local
 
       - name: Build distribution archives
         run: pipenv run python3 -m build
