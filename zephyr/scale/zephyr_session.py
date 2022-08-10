@@ -1,13 +1,13 @@
 import logging
+from urllib.parse import urlparse, parse_qs
 
 from requests import Session
-from urllib.parse import urlparse, parse_qs
 
 
 INIT_SESSION_MSG = "Initialize session by {}"
 
 
-class ZephyrSession(object):
+class ZephyrSession:
     def __init__(self, base_url, token=None, username=None, password=None, cookies=None):
         """
         Zephyr Scale basic session object.
