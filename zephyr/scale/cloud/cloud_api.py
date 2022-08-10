@@ -15,8 +15,9 @@ from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
                                           TestPlanEndpoints)
 
 
+# pylint: disable=missing-function-docstring
 class CloudApiWrapper:
-    """Zephyr Scale Cloud Api wrapper"""
+    """Zephyr Scale Cloud Api wrapper. Contains wrappers by sections."""
     def __init__(self, session: ZephyrSession):
         self.session = session
         self.logger = logging.getLogger(__name__)

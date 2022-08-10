@@ -81,34 +81,59 @@ class TestCaseEndpoints:
         return self.session.put(f"testcases/{test_case_key}", json=json)
 
     def get_links(self, test_case_key: str):
+        """Returns links for a test case with specified key"""
         return self.session.get(f"testcases/{test_case_key}/links")
 
     def create_issue_links(self, test_case_key: str, issue_id: int):
+        """Creates a link between a test case and a Jira issue"""
         json = {"issueId": issue_id}
         return self.session.post(f"testcases/{test_case_key}/links/issues", json=json)
 
     def create_web_links(self, test_case_key: str, url: str, **kwargs):
+        """Creates a link between a test case and a generic URL"""
         json = {"url": url}
         json.update(kwargs)
         return self.session.post(f"testcases/{test_case_key}/links/weblinks", json=json)
 
     def get_versions(self, test_case_key: str, **kwargs):
+        """
+        Returns all test case versions for a test case with specified key.
+        Response is ordered by most recent first
+        """
         return self.session.get_paginated(f"testcases/{test_case_key}/versions", params=kwargs)
 
     def get_version(self, test_case_key: str, version: str):
+        """Retrieves a specific version of a test case"""
         return self.session.get(f"testcases/{test_case_key}/versions/{version}")
 
     def get_test_script(self, test_case_key: str):
+        """Returns the test script for the given test case"""
         return self.session.get(f"testcases/{test_case_key}/testscript")
 
     def create_test_script(self, test_case_key: str, script_type: str, text: str):
+        """
+        Creates or updates the test script for a test case. If the test case currently
+        has a sequence of test steps assigned to it, these will be implicitly removed.
+        """
         json = {"type": script_type, "text": text}
         return self.session.post(f"testcases/{test_case_key}/testscript", json=json)
 
     def get_test_steps(self, test_case_key: str, **kwargs):
+        """
+        Returns the test steps for the given test case. Provides a paged response,
+        with 100 items per page.
+        """
         return self.session.get_paginated(f"testcases/{test_case_key}/teststeps", params=kwargs)
 
     def post_test_steps(self, test_case_key: str, mode: str, items: list):
+        """
+        Assigns a series of test steps to a test case, appending them to any existing
+        sequence of test steps. A maximum of 100 steps can be posted per request. Consumers
+        should not attempt to parallelize this operation, as the order of the steps is defined
+        by the input order. If this endpoint is called on a test case that already has
+        a plain text or BDD test script, that test script will implicitly be removed.
+        All required step custom fields should be present in the request.
+        """
         json = {"mode": mode,
                 "items": items}
         return self.session.post(f"testcases/{test_case_key}/teststeps", json=json)
