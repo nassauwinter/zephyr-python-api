@@ -11,4 +11,4 @@ class EnvironmentEndpoints:
         return self.session.get_paginated("environments", params=kwargs)
 
     def get_environment(self, environment_id):
-        return self.session.get("environments/{}".format(environment_id))
+        return self.session.get(f"environments/{environment_id}")

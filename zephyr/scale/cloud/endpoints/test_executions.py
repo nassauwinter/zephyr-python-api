@@ -31,4 +31,5 @@ class TestExecutionEndpoints:
         return self.session.get(f"testexecutions/{test_execution_id_or_key}/links")
 
     def create_issue_links(self, test_execution_id_or_key: Union[str, int], issue_id: int):
-        return self.session.post(f"testexecutions/{test_execution_id_or_key}/links", json={"issueId": issue_id})
+        return self.session.post(f"testexecutions/{test_execution_id_or_key}/links",
+                                 json={"issueId": issue_id})

@@ -11,4 +11,4 @@ class PriorityEndpoints:
         return self.session.get_paginated("priorities", params=kwargs)
 
     def get_priority(self, priority_id):
-        return self.session.get("priorities/{}".format(priority_id))
+        return self.session.get(f"priorities/{priority_id}")

@@ -15,4 +15,4 @@ class LinkEndpoints:
         :return: response body
         :rtype: dict
         """
-        return self.session.delete("links/{}".format(link_id))
+        return self.session.delete(f"links/{link_id}")

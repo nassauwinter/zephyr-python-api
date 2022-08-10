@@ -18,4 +18,4 @@ class FolderEndpoints:
         return self.session.post("folders", json=json)
 
     def get_folder(self, folder_id):
-        return self.session.get("folders/{}".format(folder_id))
+        return self.session.get(f"folders/{folder_id}")
