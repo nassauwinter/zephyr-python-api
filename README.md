@@ -1,7 +1,11 @@
 # Zephyr-python-api
 
+
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/zephyr-python-api)
+![PyPI](https://img.shields.io/pypi/v/zephyr-python-api)
+![PyPI - License](https://img.shields.io/pypi/l/zephyr-python-api)
 ### Project description
-This is a wrapper for Zephyr Scale (TM4J) REST API. This means you can interact with Zephyr Scale without GUI in a browser!
+This is a set of wrappers for Zephyr Scale (TM4J) REST API. This means you can interact with Zephyr Scale without GUI, access it with python code and create automation scripts for your every day interactions. 
 
 NOTE: Currently only Scale Cloud wrappers are implemented. 
 
