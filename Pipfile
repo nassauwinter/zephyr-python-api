@@ -10,6 +10,7 @@ requests = "*"
 pytest = "*"
 tox = "*"
 pytest-mock = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.8"
