@@ -32,7 +32,7 @@ jobs:
           pipenv install --dev
 
       - name: Build distribution archives
-        run: python3 -m build
+        run: pipenv run python3 -m build
 
       - name: Upload archieves to PYPI.org
-        run: python3 -m twine upload -u ${{ secrets.api_user }} -p ${{ secrets.api_token }} dist/*
+        run: pipenv run python3 -m twine upload -u ${{ secrets.api_user }} -p ${{ secrets.api_token }} dist/*
