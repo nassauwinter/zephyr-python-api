@@ -19,17 +19,17 @@ class ZephyrSession:
     """
     def __init__(self, base_url, token=None, username=None, password=None, cookies=None):
         self.base_url = base_url
-        self.s = Session()
+        self._session = Session()
         self.logger = logging.getLogger(__name__)
         if token:
             self.logger.debug(INIT_SESSION_MSG.format("token"))
-            self.s.headers.update({"Authorization": f"Bearer {token}"})
+            self._session.headers.update({"Authorization": f"Bearer {token}"})
         elif username and password:
             self.logger.debug(INIT_SESSION_MSG.format("username and password"))
-            self.s.auth = (username, password)
+            self._session.auth = (username, password)
         elif cookies:
             self.logger.debug(INIT_SESSION_MSG.format("cookies"))
-            self.s.cookies.update(cookies)
+            self._session.cookies.update(cookies)
         else:
             raise Exception("Insufficient auth data")
 
@@ -41,7 +41,7 @@ class ZephyrSession:
         """General request wrapper with logging and handling response"""
         self.logger.debug(f"{method.capitalize()} data: endpoint={endpoint} and {kwargs}")
         url = self._create_url(endpoint)
-        response = self.s.request(method=method, url=url, **kwargs)
+        response = self._session.request(method=method, url=url, **kwargs)
         if response.status_code < 400:
             if return_raw:
                 return response
