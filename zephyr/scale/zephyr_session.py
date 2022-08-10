@@ -45,10 +45,10 @@ class ZephyrSession:
         if response.status_code < 400:
             if return_raw:
                 return response
-            else:
-                return response.json() if response.text else ""
-        else:
-            raise Exception(f"Error {response.status_code}. Response: {response.content}")
+            if response.text:
+                return response.json()
+            return ""
+        raise Exception(f"Error {response.status_code}. Response: {response.content}")
 
     def get(self, endpoint: str, params: dict = None, **kwargs):
         """Get request wrapper"""
