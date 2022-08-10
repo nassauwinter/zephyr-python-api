@@ -29,7 +29,7 @@ jobs:
       - name: Install python dependencies
         run: |
           cd ${{ github.workspace }}/zephyr_source/
-          pipenv install
+          pipenv install --dev
 
       - name: Build distribution archives
         run: python3 -m build
