@@ -33,9 +33,8 @@ jobs:
     - name: Install Python dependencies
       run: |
         cd ${{ github.workspace }} && ls
-        pipenv install --dev
-        pipenv install tox-gh-actions
+        pipenv install --dev --skip-lock
         pipenv run pip list --local
 
     - name: Test with tox
-      run: tox
+      run: pipenv run tox
