@@ -13,6 +13,7 @@ pytest-mock = "*"
 pylint = "*"
 build = "*"
 twine = "*"
+tox-gh-actions = "*"
 
 [requires]
 python_version = "3.8"
