@@ -1,0 +1,33 @@
+name: PR checks
+on:
+  pull_request:
+    branches: [ main, dev ]
+  push:
+    branches: [ dev ]
+
+jobs:
+  Run_PR_checks:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.7', '3.8', '3.9' ]
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Python dependencies
+        run: |
+          cd ${{ github.workspace }} && ls
+          pipenv install --dev
+          pipenv install tox-gh-actions
+          pipenv run pip list --local
+
+      - name: Test with tox
+      run: tox~GH
