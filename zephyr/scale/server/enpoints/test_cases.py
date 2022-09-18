@@ -43,3 +43,7 @@ class TestCaseEndpoints:
     def search_cases(self, query, **params):
         params.update({"query": query})
         return self.session.get("testcase/search", params=params)
+
+    def get_all_versions(self, test_case_key, **params):
+        """Get all test case versions ids by its key name. Undocumented in API"""
+        return self.session.get(f"testcase/{test_case_key}/allVersions", params=params)
