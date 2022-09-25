@@ -31,10 +31,8 @@ class TestCaseEndpoints(EndpointTemplate):
         return self.session.get(Paths.CASE_ATTACH.format(test_case_key))
 
     def create_attachment(self, test_case_key, file_path):
-        with open(file_path, "rb") as file:
-            files = {"file": file}
-            return self.session.post(Paths.CASE_ATTACH.format(test_case_key),
-                                     files=files)
+        return self.session.post_file(Paths.CASE_ATTACH.format(test_case_key),
+                                      file_path)
 
     def get_latest_result(self, test_case_key):
         return self.session.get(Paths.CASE_LATEST_RES.format(test_case_key))
@@ -43,10 +41,8 @@ class TestCaseEndpoints(EndpointTemplate):
         return self.session.get(Paths.CASE_STP_ATTACH.format(test_case_key, step_index))
 
     def create_step_attachment(self, test_case_key, step_index, file_path):
-        with open(file_path, "rb") as file:
-            files = {"file": file}
-            return self.session.post(Paths.CASE_STP_ATTACH.format(test_case_key, step_index),
-                                     files=files)
+        return self.session.post(Paths.CASE_STP_ATTACH.format(test_case_key, step_index),
+                                 file_path)
 
     def search_cases(self, query, **params):
         params.update({"query": query})
