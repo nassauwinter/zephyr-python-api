@@ -11,6 +11,7 @@ To be done:
 * More usage examples
 * Tests, tests and tests for gods of testing
 * Convenient docs
+* Implementing higher level wrappers representing Test Case, Test Cycle, etc.
 
 ### Installation
 
@@ -28,7 +29,7 @@ zscale = ZephyrScale(token=<your_token>)
 ```
 
 Zephyr Server (TM4J) auth:
-```
+```python
 from zephyr import ZephyrScale
 
 # Auth can be made with Jira token
