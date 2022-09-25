@@ -1,1 +1,1 @@
-from .test_cases import TestCaseEndpoints
+from .endpoints import TestCaseEndpoints
