@@ -37,6 +37,16 @@ def test_scale_defining_version(creation_kwargs, api_version, mocker):
     wrapper_mock.assert_called_once_with(zsession_mock())
 
 
+@pytest.mark.parametrize("creation_kwargs, api_version", [({"base_url": "test.com"}, SERVER_API_WRAP_PATH)])
+def test_server_cls_method(creation_kwargs, api_version, mocker):
+    zsession_mock = mocker.patch(ZSESSION_PATH)
+    wrapper_mock = mocker.patch(api_version)
+
+    zephyr = ZephyrScale.server_api(**creation_kwargs)
+    assert isinstance(zephyr, ZephyrScale), f"Resulted object should be instance of {ZephyrScale}"
+    wrapper_mock.assert_called_once_with(zsession_mock())
+
+
 @pytest.mark.parametrize("creation_kwargs, exception",
                          [({"api_version": "v"}, ValueError)])
 def test_scale_defining_version_exceptions(creation_kwargs, exception, mocker):
