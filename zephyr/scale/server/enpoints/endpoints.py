@@ -2,17 +2,19 @@ from ...zephyr_session import ZephyrSession
 from .paths import ServerPaths as Paths
 
 
-class TestCaseEndpoints:
-    """Api wrapper for "Test Case" endpoints"""
+class EndpointTemplate:
     def __init__(self, session: ZephyrSession):
         self.session = session
+
+
+class TestCaseEndpoints(EndpointTemplate):
+    """Api wrapper for "Test Case" endpoints"""
 
     def create_test_case(self, project_key, name, **kwargs):
         json = {"projectKey": project_key,
                 "name": name}
         json.update(kwargs)
-        return self.session.post(Paths.CASE,
-                                 json=json)
+        return self.session.post(Paths.CASE, json=json)
 
     def get_test_case(self, test_case_key, **params):
         return self.session.get(Paths.CASE_KEY.format(test_case_key),
