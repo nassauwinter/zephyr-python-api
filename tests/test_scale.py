@@ -7,6 +7,7 @@ from zephyr.scale.scale import DEFAULT_BASE_URL, ZephyrScale
 
 ZSESSION_PATH = "zephyr.scale.scale.ZephyrSession"
 CLOUD_API_WRAP_PATH = "zephyr.scale.scale.CloudApiWrapper"
+SERVER_API_WRAP_PATH = "zephyr.scale.scale.ServerApiWrapper"
 
 
 @pytest.mark.parametrize("creation_kwargs, exp_url", [({}, DEFAULT_BASE_URL),
@@ -23,7 +24,9 @@ def test_scale_session_creation(creation_kwargs, exp_url, mocker):
 
 @pytest.mark.parametrize("creation_kwargs, api_version", [({}, CLOUD_API_WRAP_PATH),
                                                           ({"api_version": "v2"}, CLOUD_API_WRAP_PATH),
-                                                          ({"api_version": "V2"}, CLOUD_API_WRAP_PATH)])
+                                                          ({"api_version": "V2"}, CLOUD_API_WRAP_PATH),
+                                                          ({"api_version": "v1"}, SERVER_API_WRAP_PATH),
+                                                          ({"api_version": "V1"}, SERVER_API_WRAP_PATH)])
 def test_scale_defining_version(creation_kwargs, api_version, mocker):
     zsession_mock = mocker.patch(ZSESSION_PATH)
     wrapper_mock = mocker.patch(api_version)
@@ -35,9 +38,7 @@ def test_scale_defining_version(creation_kwargs, api_version, mocker):
 
 
 @pytest.mark.parametrize("creation_kwargs, exception",
-                         [({"api_version": "v"}, ValueError),
-                          ({"api_version": "v1"}, NotImplementedError),
-                          ({"api_version": "V1"}, NotImplementedError)])
+                         [({"api_version": "v"}, ValueError)])
 def test_scale_defining_version_exceptions(creation_kwargs, exception, mocker):
     mocker.patch(ZSESSION_PATH)
 
