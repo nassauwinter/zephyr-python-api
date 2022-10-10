@@ -125,4 +125,4 @@ class TestRunEndpoints(EndpointTemplate):
 
     def search_runs(self, query, **params):
         params.update({"query": query})
-        return self.session.get(Paths.PLAN_SEARCH, params=params)
+        return self.session.get(Paths.RUN_SEARCH, params=params)
