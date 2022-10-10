@@ -1,7 +1,9 @@
 import logging
 
 from zephyr.scale.zephyr_session import ZephyrSession
-from zephyr.scale.server.enpoints import TestCaseEndpoints
+from zephyr.scale.server.enpoints import (TestCaseEndpoints,
+                                          TestPlanEndpoints,
+                                          TestRunEndpoints)
 
 
 class ServerApiWrapper:
@@ -13,3 +15,11 @@ class ServerApiWrapper:
     @property
     def test_cases(self):
         return TestCaseEndpoints(self.session)
+
+    @property
+    def test_runs(self):
+        return TestRunEndpoints(self.session)
+
+    @property
+    def test_plans(self):
+        return TestPlanEndpoints(self.session)

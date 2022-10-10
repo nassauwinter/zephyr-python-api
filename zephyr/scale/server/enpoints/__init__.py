@@ -1,1 +1,1 @@
-from .endpoints import TestCaseEndpoints
+from .endpoints import TestCaseEndpoints, TestPlanEndpoints, TestRunEndpoints
