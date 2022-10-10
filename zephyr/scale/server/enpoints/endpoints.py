@@ -119,9 +119,9 @@ class TestRunEndpoints(EndpointTemplate):
     def get_test_results(self, test_run_key):
         return self.session.get(Paths.RUN_TEST_RESULTS.format(test_run_key))
 
-    def create_test_results(self, test_run_key, **json):
+    def create_test_results(self, test_run_key, results):
         return self.session.post(Paths.RUN_TEST_RESULTS.format(test_run_key),
-                                 json=json)
+                                 json=results)
 
     def search_runs(self, query, **params):
         params.update({"query": query})
