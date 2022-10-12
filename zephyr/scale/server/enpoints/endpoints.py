@@ -126,3 +126,121 @@ class TestRunEndpoints(EndpointTemplate):
     def search_runs(self, query, **params):
         params.update({"query": query})
         return self.session.get(Paths.RUN_SEARCH, params=params)
+
+
+class TestResultEndpoints(EndpointTemplate):
+    """Api wrapper for "Test Result" endpoints"""
+
+    def create_test_result(self, project_key, test_case_key, **json):
+        data = {"projectKey": project_key,
+                "testCaseKey": test_case_key}
+        data.update(json)
+        return self.session.post(Paths.RES, json=data)
+
+    def get_attachments(self, test_result_id):
+        return self.session.get(Paths.RES_ATTACH.format(test_result_id))
+
+    def create_attachment(self, test_result_id, file_path):
+        return self.session.post_file(Paths.RES_ATTACH.format(test_result_id), file_path)
+
+    def get_step_attachments(self, test_result_id, step_id):
+        return self.session.get(Paths.RES_STP_ATTACH.format(test_result_id, step_id))
+
+    def create_step_attachment(self, test_result_id, step_id, file_path):
+        return self.session.post_file(Paths.RES_STP_ATTACH.format(test_result_id, step_id),
+                                      file_path)
+
+
+class IssueLinkEndpoints(EndpointTemplate):
+    """Api wrapper for "Issue Link" endpoints"""
+
+    def get_issue_links(self, issue_key, **params):
+        return self.session.get(Paths.ISSUE_CASES.format(issue_key), params=params)
+
+
+class FolderEndpoints(EndpointTemplate):
+    """Api wrapper for "Folder" endpoints"""
+
+    def create_folder(self, project_key, name, folder_type):
+        json = {"projectKey": project_key,
+                "name": name,
+                "type": folder_type}
+        return self.session.post(Paths.FOLDER, json=json)
+
+    def update_folder(self, folder_id, json):
+        return self.session.put(Paths.FOLDER_ID.format(folder_id), json=json)
+
+
+class AttachmentEndpoints(EndpointTemplate):
+    """Api wrapper for "Attachment" endpoints"""
+
+    def delete_attachment(self, attachment_id):
+        return self.session.delete(Paths.ATTACH.format(attachment_id))
+
+
+class EnvironmentEndpoints(EndpointTemplate):
+    """Api wrapper for "Environment" endpoints"""
+
+    def get_environments(self, project_key):
+        params = {"projectKey": project_key}
+        return self.session.get(Paths.ENV, params=params)
+
+    def create_environment(self, project_key, name, description=None):
+        json = {"projectKey": project_key,
+                "name": name,
+                "description": description}
+        return self.session.post(Paths.ENV, json=json)
+
+
+class AutomationEndpoints(EndpointTemplate):
+    """Api wrapper for "Automation" endpoints"""
+
+    def create_cycle(self, project_key, file_path, cycle_data=None):
+        return self.session.post_file(Paths.ATM_PRJ_KEY.format(project_key),
+                                      file_path=file_path,
+                                      data=cycle_data)
+
+    def create_cycle_cucumber(self, project_key, file_path, cycle_data=None):
+        return self.session.post_file(Paths.ATM_PRJ_KEY.format(project_key),
+                                      file_path=file_path,
+                                      data=cycle_data)
+
+    def get_testcases_cucumber(self, query):
+        # Get file???
+        return self.session.get(Paths.ATM_CUCUMBER, params={"query": query})
+
+
+class ProjectEndpoints(EndpointTemplate):
+    """Api wrapper for "Project" endpoints"""
+
+    def create_zephyr_project(self, project_key, enabled):
+        json = {"projectKey": project_key,
+                "enabled": enabled}
+        return self.session.post(Paths.PRJ, json=json)
+
+
+class CustomFieldEndpoints(EndpointTemplate):
+    """Api wrapper for "Custom Field" endpoints"""
+
+    def create_custom_field(self, project_key, name, field_type, category, **kwargs):
+        json = {"projectKey": project_key,
+                "name": name,
+                "type": field_type,
+                "category": category}
+        json.update(kwargs)
+        return self.session.post(Paths.CFIELD, json=json)
+
+    def create_custom_field_opt(self, custom_field_id, option_name):
+        return self.session.post(Paths.CFIELD_OPT.format(custom_field_id),
+                                 json={"name": option_name})
+
+
+class DeleteExecutionEndpoints(EndpointTemplate):
+    """Api wrapper for "Delete Execution" endpoints"""
+
+    def delete_execution(self, date):
+        json = {"deleteExecutionsCreatedBefore": date}
+        return self.session.post(Paths.DEL_EXEC, json=json)
+
+    def get_status(self):
+        return self.session.get(Paths.DEL_EXEC_STATUS)
