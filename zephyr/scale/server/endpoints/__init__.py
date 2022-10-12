@@ -1,1 +1,11 @@
-from .endpoints import TestCaseEndpoints, TestPlanEndpoints, TestRunEndpoints
+from .endpoints import (AutomationEndpoints,
+                        CustomFieldEndpoints,
+                        DeleteExecutionEndpoints,
+                        EnvironmentEndpoints,
+                        FolderEndpoints,
+                        IssueLinkEndpoints,
+                        ProjectEndpoints,
+                        TestCaseEndpoints,
+                        TestPlanEndpoints,
+                        TestResultEndpoints,
+                        TestRunEndpoints)
