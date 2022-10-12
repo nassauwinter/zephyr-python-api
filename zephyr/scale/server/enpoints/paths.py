@@ -39,7 +39,7 @@ class ServerPaths:
 
     # Folder
     FOLDER = "folder"
-    FOLDER_KEY = "folder/{}"
+    FOLDER_ID = "folder/{}"
 
     # Attachments
     ATTACH = "attachments/{}"
