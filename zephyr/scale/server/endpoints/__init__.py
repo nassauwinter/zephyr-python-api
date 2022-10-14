@@ -1,4 +1,5 @@
-from .endpoints import (AutomationEndpoints,
+from .endpoints import (AttachmentEndpoints,
+                        AutomationEndpoints,
                         CustomFieldEndpoints,
                         DeleteExecutionEndpoints,
                         EnvironmentEndpoints,

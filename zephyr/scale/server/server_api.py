@@ -11,6 +11,10 @@ class ServerApiWrapper:
         self.logger = logging.getLogger(__name__)
 
     @property
+    def attachments(self):
+        return endpoints.AttachmentEndpoints(self.session)
+
+    @property
     def automation(self):
         return endpoints.AutomationEndpoints(self.session)
 
