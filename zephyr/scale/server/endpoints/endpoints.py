@@ -167,7 +167,7 @@ class FolderEndpoints(EndpointTemplate):
                 "type": folder_type}
         return self.session.post(Paths.FOLDER, json=json)
 
-    def update_folder(self, folder_id, json):
+    def update_folder(self, folder_id, **json):
         return self.session.put(Paths.FOLDER_ID.format(folder_id), json=json)
 
 
