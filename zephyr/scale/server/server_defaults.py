@@ -4,6 +4,7 @@ This module contains default values for various Server API entities
 
 
 class TestCaseDefaults:
+    """Class container to store Test Case default values"""
     CASE_FIELDS = ("id,projectId,archived,key,name,objective,majorVersion,latestVersion,"
                    "precondition,folder(id,fullName),status,priority,estimatedTime,"
                    "averageTime,componentId,owner,labels,customFieldValues,testScript(id,text,"
