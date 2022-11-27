@@ -2,6 +2,7 @@ import logging
 
 from zephyr.scale.zephyr_session import ZephyrSession
 from zephyr.scale.cloud.cloud_api import CloudApiWrapper
+from zephyr.scale.server.server_api import ServerApiWrapper
 
 
 DEFAULT_BASE_URL = "https://api.zephyrscale.smartbear.com/v2/"
@@ -26,7 +27,12 @@ class ZephyrScale:
         if api_version.lower() == API_V2:
             self.api = CloudApiWrapper(session)
         elif api_version.lower() == API_V1:
-            raise NotImplementedError("Server api wrappers have not been implemented yet.")
+            self.api = ServerApiWrapper(session)
         else:
             raise ValueError("API version should be either 'v1' (Server) or 'v2' (Cloud)")
         self.logger = logging.getLogger(__name__)
+
+    @classmethod
+    def server_api(cls, base_url, **kwargs):
+        """Alternative constructor for Zephyr Scale Server client"""
+        return cls(base_url=base_url, api_version=API_V1, **kwargs)

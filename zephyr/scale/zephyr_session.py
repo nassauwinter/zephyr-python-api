@@ -83,3 +83,12 @@ class ZephyrSession:
             params_str = urlparse(response.get("next")).query
             params.update(parse_qs(params_str))
         return
+
+    def post_file(self, endpoint: str, file_path: str, **kwargs):
+        """
+        Post wrapper to send a file. Handles single file opening,
+        sending its content and closing
+        """
+        with open(file_path, "rb") as file:
+            files = {"file": file}
+            return self._request("post", endpoint, files=files, **kwargs)

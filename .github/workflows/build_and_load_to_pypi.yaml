@@ -6,7 +6,7 @@ on:
 jobs:
   Build_release:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/setup-python@v4
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install python dependencies
         run: |
-          cd ${{ github.workspace }}/zephyr-python-api && ls
+          cd ${{ github.workspace }} && ls
           pipenv install --dev
           pipenv run pip list --local
 

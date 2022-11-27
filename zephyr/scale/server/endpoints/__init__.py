@@ -1,0 +1,12 @@
+from .endpoints import (AttachmentEndpoints,
+                        AutomationEndpoints,
+                        CustomFieldEndpoints,
+                        DeleteExecutionEndpoints,
+                        EnvironmentEndpoints,
+                        FolderEndpoints,
+                        IssueLinkEndpoints,
+                        ProjectEndpoints,
+                        TestCaseEndpoints,
+                        TestPlanEndpoints,
+                        TestResultEndpoints,
+                        TestRunEndpoints)
