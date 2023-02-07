@@ -1,10 +1,14 @@
 import logging
 from urllib.parse import urlparse, parse_qs
 
-from requests import Session
+from requests import HTTPError, Session
 
 
 INIT_SESSION_MSG = "Initialize session by {}"
+
+
+class InvalidAuthData(Exception):
+    """Invalid authentication data provided"""
 
 
 class ZephyrSession:
@@ -35,7 +39,7 @@ class ZephyrSession:
             self.logger.debug(INIT_SESSION_MSG.format("cookies"))
             self._session.cookies.update(cookies)
         else:
-            raise Exception("Insufficient auth data")
+            raise InvalidAuthData("Insufficient auth data")
 
         if kwargs.get("session_attrs"):
             self._modify_session(**kwargs.get("session_attrs"))
@@ -62,7 +66,7 @@ class ZephyrSession:
             if response.text:
                 return response.json()
             return ""
-        raise Exception(f"Error {response.status_code}. Response: {response.content}")
+        raise HTTPError(f"Error {response.status_code}. Response: {response.content}")
 
     def get(self, endpoint: str, params: dict = None, **kwargs):
         """Get request wrapper"""
