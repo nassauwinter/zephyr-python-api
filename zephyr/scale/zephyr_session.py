@@ -50,8 +50,7 @@ class ZephyrSession:
 
     def _modify_session(self, **kwargs):
         """Modify requests session with extra arguments"""
-        session_attrs = kwargs.get('session_attrs', None)
-        self.logger.debug(f"Modify requests session object with {session_attrs}")
+        self.logger.debug(f"Modify requests session object with {kwargs}")
         for session_attr, value in kwargs.items():
             setattr(self._session, session_attr, value)
 
