@@ -1,0 +1,15 @@
+"""Common helper functions to use with the package"""
+
+
+def cookie_str_to_dict(cookie_str: str) -> dict:
+    """
+    Function to convert a cookie string from a browser Jira session to cookie dict for auth
+
+    :param cookie_str: a string copied from Jira session in browser
+    :returns: dict with parsed cookies
+    """
+    cookie_dict = {}
+    for cookie_substr in cookie_str.split(";"):
+        _key, _value = cookie_substr.strip().split("=", maxsplit=1)
+        cookie_dict.update({_key: _value})
+    return cookie_dict

@@ -1,0 +1,40 @@
+name: PR checks
+on:
+  pull_request:
+    branches: [ main, dev ]
+  push:
+    branches: [ dev ]
+
+jobs:
+  Run_PR_checks:
+
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [ '3.6', '3.7', '3.8', '3.9', '3.10' ]
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Update pip and install pipenv
+      run: |
+        pip install --upgrade pip
+        pip install pipenv
+        python --version
+        pip --version
+        pipenv --version
+
+    - name: Install Python dependencies
+      run: |
+        cd ${{ github.workspace }} && ls
+        pipenv install --dev --skip-lock
+        pipenv run pip list --local
+
+    - name: Test with tox
+      run: pipenv run tox
