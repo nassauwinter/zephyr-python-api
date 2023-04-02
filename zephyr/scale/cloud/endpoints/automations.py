@@ -9,7 +9,13 @@ class AutomationEndpoints:
     def __init__(self, session: ZephyrSession):
         self.session = session
 
-    def _post_reports(self, path, project_key, file_path, auto_create=False, test_cycle=None, **kwargs):
+    def _post_reports(self,
+                      path,
+                      project_key,
+                      file_path,
+                      auto_create=False,
+                      test_cycle=None,
+                      **kwargs):
         """
         Post various reports logic.
 
@@ -20,11 +26,13 @@ class AutomationEndpoints:
         :param test_cycle: dict with test cycle description data
         """
         params = {'projectKey': project_key}
+        to_files = None
 
         if auto_create:
             params.update({'autoCreateTestCases': True})
 
-        to_files = {'testCycle': (None, dumps(test_cycle), 'application/json')} if test_cycle else None
+        if test_cycle:
+            to_files = {'testCycle': (None, dumps(test_cycle), 'application/json')}
 
         return self.session.post_file(path,
                                       file_path,
@@ -32,7 +40,12 @@ class AutomationEndpoints:
                                       params=params,
                                       **kwargs)
 
-    def post_custom_format(self, project_key, file_path, auto_create=False, test_cycle=None, **kwargs):
+    def post_custom_format(self,
+                           project_key,
+                           file_path,
+                           auto_create=False,
+                           test_cycle=None,
+                           **kwargs):
         """
         Create results using Zephyr Scale's custom results format.
 
@@ -48,7 +61,12 @@ class AutomationEndpoints:
                                   test_cycle=test_cycle,
                                   **kwargs)
 
-    def post_cucumber_format(self, project_key, file_path, auto_create=False, test_cycle=None, **kwargs):
+    def post_cucumber_format(self,
+                             project_key,
+                             file_path,
+                             auto_create=False,
+                             test_cycle=None,
+                             **kwargs):
         """
         Create results using the Cucumber results format.
 
@@ -64,7 +82,12 @@ class AutomationEndpoints:
                                   test_cycle=test_cycle,
                                   **kwargs)
 
-    def post_junit_xml_format(self, project_key, file_path, auto_create=False, test_cycle=None, **kwargs):
+    def post_junit_xml_format(self,
+                              project_key,
+                              file_path,
+                              auto_create=False,
+                              test_cycle=None,
+                              **kwargs):
         """
         Create results using the JUnit XML results format.
 
