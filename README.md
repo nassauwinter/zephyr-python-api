@@ -58,6 +58,10 @@ test_case = zapi.test_cases.get_test_case("<test_case_id>")
 creation_result = zapi.test_cases.create_test_case("<project_key>", "test_case_name")
 ```
 
+### Troubleshooting
+
+For troubleshooting see [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+
 
 ### License
 
