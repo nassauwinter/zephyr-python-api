@@ -1,10 +1,10 @@
-from ...zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_scale_session import ZephyrScaleSession
 
 
 class EnvironmentEndpoints:
     """Api wrapper for "Environment" endpoints"""
 
-    def __init__(self, session: ZephyrSession):
+    def __init__(self, session: ZephyrScaleSession):
         self.session = session
 
     def get_environments(self, **kwargs):

@@ -1,11 +1,11 @@
 from typing import Union
 
-from ...zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_scale_session import ZephyrScaleSession
 
 
 class TestCycleEndpoints:
     """Api wrapper for "Test Cycle" endpoints"""
-    def __init__(self, session: ZephyrSession):
+    def __init__(self, session: ZephyrScaleSession):
         self.session = session
 
     def get_all_test_cycles(self, **kwargs):

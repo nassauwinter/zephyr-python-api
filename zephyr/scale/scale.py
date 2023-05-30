@@ -1,6 +1,6 @@
 import logging
 
-from zephyr.scale.zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_scale_session import ZephyrScaleSession
 from zephyr.scale.cloud.cloud_api import CloudApiWrapper
 from zephyr.scale.server.server_api import ServerApiWrapper
 
@@ -22,7 +22,7 @@ class ZephyrScale:
     """
     def __init__(self, base_url=None, api_version=API_V2, **kwargs):
         base_url = DEFAULT_BASE_URL if not base_url else base_url
-        session = ZephyrSession(base_url=base_url, **kwargs)
+        session = ZephyrScaleSession(base_url=base_url, **kwargs)
 
         if api_version.lower() == API_V2:
             self.api = CloudApiWrapper(session)

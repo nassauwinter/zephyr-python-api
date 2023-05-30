@@ -1,6 +1,5 @@
 import logging
-
-from zephyr.scale.zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_scale_session import ZephyrScaleSession
 from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
                                           EnvironmentEndpoints,
                                           FolderEndpoints,
@@ -18,7 +17,7 @@ from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
 # pylint: disable=missing-function-docstring
 class CloudApiWrapper:
     """Zephyr Scale Cloud Api wrapper. Contains wrappers by sections."""
-    def __init__(self, session: ZephyrSession):
+    def __init__(self, session: ZephyrScaleSession):
         self.session = session
         self.logger = logging.getLogger(__name__)
 

@@ -1,4 +1,5 @@
 """Common helper functions to use with the package"""
+from copy import deepcopy
 
 
 def cookie_str_to_dict(cookie_str: str) -> dict:
@@ -13,3 +14,14 @@ def cookie_str_to_dict(cookie_str: str) -> dict:
         _key, _value = cookie_substr.strip().split("=", maxsplit=1)
         cookie_dict.update({_key: _value})
     return cookie_dict
+
+
+def dict_merge(source, overwrite):
+    """Recursively merges 2 dictionaries and return the merged dictionary"""
+    result = deepcopy(source)
+    for key, val in overwrite.items():
+        if key in result and isinstance(result[key], dict):
+            result[key] = dict_merge(result[key], val)
+        else:
+            result[key] = deepcopy(val)
+    return result
