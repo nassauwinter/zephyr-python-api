@@ -5,7 +5,11 @@
 ![PyPI](https://img.shields.io/pypi/v/zephyr-python-api)
 ![PyPI - License](https://img.shields.io/pypi/l/zephyr-python-api)
 ### Project description
-This is a set of wrappers for Zephyr Scale (TM4J) REST API. This means you can interact with Zephyr Scale without GUI, access it with python code and create automation scripts for your every day interactions.
+This is a set of wrappers for Zephyr Scale (TM4J) REST API. 
+This means you can interact with Zephyr Scale without GUI, access it with python code and create 
+automation scripts for your every day interactions.
+
+For more detailed information please see [the project's documentation](https://zephyr-python-api.readthedocs.io/en/main/index.html).
 
 To be done:
 * More usage examples
@@ -25,7 +29,7 @@ Zephyr Cloud auth:
 ```python
 from zephyr import ZephyrScale
 
-zscale = ZephyrScale(token=<your_token>)
+zscale = ZephyrScale(token="<your_token>")
 ```
 
 Zephyr Server (TM4J) auth:
@@ -41,7 +45,7 @@ auth = {"username": "<your_login>", "password": "<your_password>"}
 # or even session cookie dict
 auth = {"cookies": "<session_cookie_dict>"}
 
-zscale = ZephyrScale.server_api(base_url=<your_base_url>, **auth)
+zscale = ZephyrScale.server_api(base_url="<your_base_url>", **auth)
 ```
 
 Then it is possible to interact with api wrappers:
@@ -57,11 +61,6 @@ test_case = zapi.test_cases.get_test_case("<test_case_id>")
 # Create a test case
 creation_result = zapi.test_cases.create_test_case("<project_key>", "test_case_name")
 ```
-
-### Troubleshooting
-
-For troubleshooting see [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
-
 
 ### License
 
