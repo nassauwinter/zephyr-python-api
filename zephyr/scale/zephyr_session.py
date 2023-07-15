@@ -1,3 +1,6 @@
+"""
+Module for Zephyr Scale session object.
+"""
 import logging
 from urllib.parse import urlparse, parse_qs
 
@@ -8,12 +11,12 @@ INIT_SESSION_MSG = "Initialize session by {}"
 
 
 class InvalidAuthData(Exception):
-    """Invalid authentication data provided"""
+    """Raised when Invalid authentication data provided."""
 
 
 class ZephyrSession:
     """
-    Zephyr Scale basic session object.
+    Zephyr Scale basic session object. The authentication and response handling logic is placed here.
 
     :param base_url: url to make requests to
     :param token: auth token
@@ -21,7 +24,7 @@ class ZephyrSession:
     :param password: password
     :param cookies: cookie dict
 
-    :keyword session_attrs: a dict with session attrs to be set as keys and their values
+    :param keyword session_attrs: a dict with session attrs to be set as keys and their values
     """
     def __init__(self, base_url, token=None, username=None, password=None, cookies=None, **kwargs):
         self.base_url = base_url
@@ -55,7 +58,17 @@ class ZephyrSession:
             setattr(self._session, session_attr, value)
 
     def _request(self, method: str, endpoint: str, return_raw: bool = False, **kwargs):
-        """General request wrapper with logging and handling response"""
+        """
+        General request wrapper with logging and handling response
+
+        :param method: request method
+        :param endpoint: endpoint to make request to
+        :param return_raw: whether to return raw response or not
+
+        :raises: HTTPError if response status code is 400 or higher
+
+        :return: response json, empty str or raw response
+        """
         self.logger.debug(f"{method.capitalize()} data: endpoint={endpoint} and {kwargs}")
         url = self._create_url(endpoint)
         response = self._session.request(method=method, url=url, **kwargs)
@@ -68,23 +81,58 @@ class ZephyrSession:
         raise HTTPError(f"Error {response.status_code}. Response: {response.content}")
 
     def get(self, endpoint: str, params: dict = None, **kwargs):
-        """Get request wrapper"""
+        """
+        Get request wrapper.
+
+        :param endpoint: endpoint to make request to
+        :param params: dict with params to be passed to request
+
+        :return: response json, empty str or raw response
+        """
         return self._request("get", endpoint, params=params, **kwargs)
 
     def post(self, endpoint: str, json: dict = None, **kwargs):
-        """Post request wrapper"""
+        """
+        Post request wrapper.
+
+        :param endpoint: endpoint to make request to
+        :param json: json to be passed to request
+
+        :return: response json, empty str or raw response
+        """
         return self._request("post", endpoint, json=json, **kwargs)
 
     def put(self, endpoint: str, json: dict = None, **kwargs):
-        """Put request wrapper"""
+        """
+        Put request wrapper
+
+        :param endpoint: endpoint to make request to
+        :param json: json to be passed to request
+
+        :return: response json, empty str or raw response
+        """
         return self._request("put", endpoint, json=json, **kwargs)
 
     def delete(self, endpoint: str, **kwargs):
-        """Delete request wrapper"""
+        """
+        Delete request wrapper.
+
+        :param endpoint: endpoint to make request to
+
+        :return: response json, empty str or raw response
+        """
         return self._request("delete", endpoint, **kwargs)
 
     def get_paginated(self, endpoint, params=None):
-        """Get paginated data"""
+        """
+        Get request wrapper for getting paginated data. Yields values from multiple get requests
+        responses.
+
+        :param endpoint: endpoint to make request to
+        :param params: dict with params to be passed to request
+
+        :return: generator with values from responses
+        """
         self.logger.debug(f"Get paginated data from endpoint={endpoint} and params={params}")
         if params is None:
             params = {}
@@ -103,8 +151,13 @@ class ZephyrSession:
 
     def post_file(self, endpoint: str, file_path: str, to_files=None, **kwargs):
         """
-        Post wrapper to send a file. Handles single file opening,
-        sending its content and closing
+        Post wrapper to send a file. Handles single file opening, sending its content and closing.
+
+        :param endpoint: endpoint to make request to
+        :param file_path: path to file to be sent
+        :param to_files: dict with files to be sent along with the main file
+
+        :return: response json, empty str or raw response
         """
         with open(file_path, "rb") as file:
             files = {"file": file}
