@@ -1,5 +1,5 @@
 """
-Module for Zephyr Scale session object.
+A module for Zephyr Scale session object.
 """
 import logging
 from urllib.parse import urlparse, parse_qs
@@ -16,7 +16,8 @@ class InvalidAuthData(Exception):
 
 class ZephyrSession:
     """
-    Zephyr Scale basic session object. The authentication and response handling logic is placed here.
+    Zephyr Scale basic session object. The authentication and response handling logic
+    is placed here.
 
     :param base_url: url to make requests to
     :param token: auth token
