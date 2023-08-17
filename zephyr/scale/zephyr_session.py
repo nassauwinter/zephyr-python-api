@@ -1,10 +1,14 @@
 import logging
 from urllib.parse import urlparse, parse_qs
 
-from requests import Session
+from requests import HTTPError, Session
 
 
 INIT_SESSION_MSG = "Initialize session by {}"
+
+
+class InvalidAuthData(Exception):
+    """Invalid authentication data provided"""
 
 
 class ZephyrSession:
@@ -16,11 +20,15 @@ class ZephyrSession:
     :param username: username
     :param password: password
     :param cookies: cookie dict
+
+    :keyword session_attrs: a dict with session attrs to be set as keys and their values
     """
-    def __init__(self, base_url, token=None, username=None, password=None, cookies=None):
+    def __init__(self, base_url, token=None, username=None, password=None, cookies=None, **kwargs):
         self.base_url = base_url
         self._session = Session()
+
         self.logger = logging.getLogger(__name__)
+
         if token:
             self.logger.debug(INIT_SESSION_MSG.format("token"))
             self._session.headers.update({"Authorization": f"Bearer {token}"})
@@ -31,11 +39,20 @@ class ZephyrSession:
             self.logger.debug(INIT_SESSION_MSG.format("cookies"))
             self._session.cookies.update(cookies)
         else:
-            raise Exception("Insufficient auth data")
+            raise InvalidAuthData("Insufficient auth data")
+
+        if kwargs.get("session_attrs"):
+            self._modify_session(**kwargs.get("session_attrs"))
 
     def _create_url(self, *args):
         """Helper for URL creation"""
         return self.base_url + "/".join(args)
+
+    def _modify_session(self, **kwargs):
+        """Modify requests session with extra arguments"""
+        self.logger.debug(f"Modify requests session object with {kwargs}")
+        for session_attr, value in kwargs.items():
+            setattr(self._session, session_attr, value)
 
     def _request(self, method: str, endpoint: str, return_raw: bool = False, **kwargs):
         """General request wrapper with logging and handling response"""
@@ -48,7 +65,7 @@ class ZephyrSession:
             if response.text:
                 return response.json()
             return ""
-        raise Exception(f"Error {response.status_code}. Response: {response.content}")
+        raise HTTPError(f"Error {response.status_code}. Response: {response.content}")
 
     def get(self, endpoint: str, params: dict = None, **kwargs):
         """Get request wrapper"""
@@ -83,3 +100,16 @@ class ZephyrSession:
             params_str = urlparse(response.get("next")).query
             params.update(parse_qs(params_str))
         return
+
+    def post_file(self, endpoint: str, file_path: str, to_files=None, **kwargs):
+        """
+        Post wrapper to send a file. Handles single file opening,
+        sending its content and closing
+        """
+        with open(file_path, "rb") as file:
+            files = {"file": file}
+
+            if to_files:
+                files.update(to_files)
+
+            return self._request("post", endpoint, files=files, **kwargs)

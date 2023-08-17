@@ -2,11 +2,13 @@ name: Building artifacts and load them to PYPI index
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'VERSION.txt'
 
 jobs:
   Build_release:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/setup-python@v4

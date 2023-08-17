@@ -1,3 +1,5 @@
+from json import dumps
+
 from ...zephyr_session import ZephyrSession
 
 
@@ -7,25 +9,99 @@ class AutomationEndpoints:
     def __init__(self, session: ZephyrSession):
         self.session = session
 
-    def post_custom_format(self):
+    def _post_reports(self,
+                      path,
+                      project_key,
+                      file_path,
+                      auto_create=False,
+                      test_cycle=None,
+                      **kwargs):
+        """
+        Post various reports logic.
+
+        :param path: str with resource path
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        params = {'projectKey': project_key}
+        to_files = None
+
+        if auto_create:
+            params.update({'autoCreateTestCases': True})
+
+        if test_cycle:
+            to_files = {'testCycle': (None, dumps(test_cycle), 'application/json')}
+
+        return self.session.post_file(path,
+                                      file_path,
+                                      to_files=to_files,
+                                      params=params,
+                                      **kwargs)
+
+    def post_custom_format(self,
+                           project_key,
+                           file_path,
+                           auto_create=False,
+                           test_cycle=None,
+                           **kwargs):
         """
         Create results using Zephyr Scale's custom results format.
-        """
-        raise NotImplementedError
 
-    def post_cucumber_format(self):
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        return self._post_reports('automations/executions/custom',
+                                  project_key=project_key,
+                                  file_path=file_path,
+                                  auto_create=auto_create,
+                                  test_cycle=test_cycle,
+                                  **kwargs)
+
+    def post_cucumber_format(self,
+                             project_key,
+                             file_path,
+                             auto_create=False,
+                             test_cycle=None,
+                             **kwargs):
         """
         Create results using the Cucumber results format.
-        """
-        raise NotImplementedError
 
-    def post_junit_xml_format(self):
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
         """
-        Create results using the JUnit XML results format. Optionally,
-        you can send a 'testCycle' part in your form data to customize
-        the created test cycle.
+        return self._post_reports('automations/executions/cucumber',
+                                  project_key=project_key,
+                                  file_path=file_path,
+                                  auto_create=auto_create,
+                                  test_cycle=test_cycle,
+                                  **kwargs)
+
+    def post_junit_xml_format(self,
+                              project_key,
+                              file_path,
+                              auto_create=False,
+                              test_cycle=None,
+                              **kwargs):
         """
-        raise NotImplementedError
+        Create results using the JUnit XML results format.
+
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        return self._post_reports('automations/executions/junit',
+                                  project_key=project_key,
+                                  file_path=file_path,
+                                  auto_create=auto_create,
+                                  test_cycle=test_cycle,
+                                  **kwargs)
 
     def get_testcases_zip(self, project_key):
         """
