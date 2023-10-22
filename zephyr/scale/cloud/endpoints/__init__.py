@@ -1,5 +1,5 @@
+from .endpoints import (TestCaseEndpoints)
 from .environments import EnvironmentEndpoints
-from .test_cases import TestCaseEndpoints
 from .projects import ProjectEndpoints
 from .test_cycles import TestCycleEndpoints
 from .test_plans import TestPlanEndpoints
