@@ -9,7 +9,16 @@ from zephyr.scale.cloud import endpoints
 
 # pylint: disable=missing-function-docstring
 class CloudApiWrapper:
-    """Zephyr Scale Cloud Api wrapper. Contains wrappers by sections."""
+    """
+    Zephyr Scale Cloud Api wrapper class. It contains API endpoint wrappers for the Zephyr Scale
+    Cloud. The wrappers are grouped by the entity they are related to.
+    These wrapper groups are represented by the properties of the class.
+
+    For more details on the API endpoints see docs:
+    https://support.smartbear.com/zephyr-scale-cloud/api-docs/
+
+    :param session: ZephyrSession object with auth credentials
+    """
     def __init__(self, session: ZephyrSession):
         self.session = session
         self.logger = logging.getLogger(__name__)
