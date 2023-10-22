@@ -1,11 +1,5 @@
-from ...zephyr_session import ZephyrSession
+from ...zephyr_session import EndpointTemplate
 from .paths import ServerPaths as Paths
-
-
-class EndpointTemplate:
-    """Class with basic constructor for endpoint classes"""
-    def __init__(self, session: ZephyrSession):
-        self.session = session
 
 
 class TestCaseEndpoints(EndpointTemplate):

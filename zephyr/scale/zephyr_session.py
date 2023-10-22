@@ -167,3 +167,9 @@ class ZephyrSession:
                 files.update(to_files)
 
             return self._request("post", endpoint, files=files, **kwargs)
+
+
+class EndpointTemplate:
+    """Class with basic constructor for endpoint classes"""
+    def __init__(self, session: ZephyrSession):
+        self.session = session
