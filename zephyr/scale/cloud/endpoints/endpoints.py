@@ -3,7 +3,11 @@ from .paths import CloudPaths as Paths
 
 
 class TestCaseEndpoints(EndpointTemplate):
-    """Api wrapper for "Test Case" endpoints"""
+    """
+    Api wrapper for "Test Case" endpoints
+
+    Details: https://support.smartbear.com/zephyr-scale-cloud/api-docs/#tag/Test-Cases
+    """
 
     def get_test_cases(self, **kwargs):
         """Retrieves all test cases. Query parameters can be used to filter the results.
