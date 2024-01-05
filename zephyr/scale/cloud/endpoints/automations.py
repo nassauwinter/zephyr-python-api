@@ -1,12 +1,12 @@
 from json import dumps
 
-from ...zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_scale_session import ZephyrScaleSession
 
 
 class AutomationEndpoints:
     """Api wrapper for "Automation" endpoints"""
 
-    def __init__(self, session: ZephyrSession):
+    def __init__(self, session: ZephyrScaleSession):
         self.session = session
 
     def _post_reports(self,

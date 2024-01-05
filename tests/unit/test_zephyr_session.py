@@ -1,8 +1,8 @@
 import pytest
 from requests import Session
 
-from zephyr.scale.scale import DEFAULT_BASE_URL, ZephyrSession
-from zephyr.scale.zephyr_session import INIT_SESSION_MSG, InvalidAuthData
+from zephyr.scale.scale import DEFAULT_BASE_URL, ZephyrScaleSession
+from zephyr.common.zephyr_session import INIT_SESSION_MSG, InvalidAuthData
 
 REQUESTS_SESSION_PATH = "requests.sessions.Session"
 GETLOGGER_PATH = "logging.getLogger"
@@ -10,24 +10,24 @@ LOGGER_DEBUG_PATH = "logging.Logger.debug"
 
 
 @pytest.mark.unit
-class TestZephyrSession:
+class TestZephyrScaleSession:
     def test_creation(self, mocker):
         """Tests basic creation logic"""
         logger_mock = mocker.patch(GETLOGGER_PATH)
 
-        zsession = ZephyrSession(DEFAULT_BASE_URL, token="token_test")
+        zsession = ZephyrScaleSession(DEFAULT_BASE_URL, token="token_test")
 
         assert zsession.base_url == DEFAULT_BASE_URL, (f"Attribute base_url expected to be {DEFAULT_BASE_URL}, "
                                                        f"not {zsession.base_url}")
         assert isinstance(zsession._session, Session)
-        logger_mock.assert_called_with("zephyr.scale.zephyr_session")
+        logger_mock.assert_called_with("zephyr.common.zephyr_session")
 
     def test_token_auth(self, mocker):
         """Test token auth"""
         token = "test_token"
         logger_mock = mocker.patch(LOGGER_DEBUG_PATH)
 
-        zsession = ZephyrSession(DEFAULT_BASE_URL, token=token)
+        zsession = ZephyrScaleSession(DEFAULT_BASE_URL, token=token)
 
         logger_mock.assert_called_with(INIT_SESSION_MSG.format("token"))
         assert f"Bearer {token}" == zsession._session.headers.get("Authorization")
@@ -38,7 +38,7 @@ class TestZephyrSession:
         password = "pwdtest"
         logger_mock = mocker.patch(LOGGER_DEBUG_PATH)
 
-        zsession = ZephyrSession(DEFAULT_BASE_URL, username=username, password=password)
+        zsession = ZephyrScaleSession(DEFAULT_BASE_URL, username=username, password=password)
 
         logger_mock.assert_called_with(INIT_SESSION_MSG.format("username and password"))
         assert (username, password) == zsession._session.auth
@@ -48,7 +48,7 @@ class TestZephyrSession:
         test_cookie = {"cookies": {"cookie.token": "cookie_test"}}
         logger_mock = mocker.patch(LOGGER_DEBUG_PATH)
 
-        zsession = ZephyrSession(DEFAULT_BASE_URL, cookies=test_cookie)
+        zsession = ZephyrScaleSession(DEFAULT_BASE_URL, cookies=test_cookie)
 
         logger_mock.assert_called_with(INIT_SESSION_MSG.format("cookies"))
         assert test_cookie['cookies'] in zsession._session.cookies.values()
@@ -59,7 +59,7 @@ class TestZephyrSession:
     def test_auth_exception(self, auth_data, exception):
         """Test exceptions on auth"""
         with pytest.raises(exception):
-            ZephyrSession(DEFAULT_BASE_URL, **auth_data)
+            ZephyrScaleSession(DEFAULT_BASE_URL, **auth_data)
 
     @pytest.mark.parametrize("creation_kwargs",
                              [{"token": "token_test",
@@ -69,7 +69,7 @@ class TestZephyrSession:
         logger_mock = mocker.patch(LOGGER_DEBUG_PATH)
         session_attrs = creation_kwargs.get('session_attrs')
 
-        zsession = ZephyrSession(DEFAULT_BASE_URL, **creation_kwargs)
+        zsession = ZephyrScaleSession(DEFAULT_BASE_URL, **creation_kwargs)
 
         logger_mock.assert_called_with(
             f"Modify requests session object with {session_attrs}")

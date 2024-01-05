@@ -5,7 +5,7 @@ import pytest
 from zephyr.scale.scale import DEFAULT_BASE_URL, ZephyrScale
 
 
-ZSESSION_PATH = "zephyr.scale.scale.ZephyrSession"
+ZSESSION_PATH = "zephyr.scale.scale.ZephyrScaleSession"
 CLOUD_API_WRAP_PATH = "zephyr.scale.scale.CloudApiWrapper"
 SERVER_API_WRAP_PATH = "zephyr.scale.scale.ServerApiWrapper"
 

@@ -1,13 +1,13 @@
 import logging
 
-from zephyr.scale.zephyr_session import ZephyrSession
+from zephyr.scale.zephyr_scale_session import ZephyrScaleSession
 from zephyr.scale.server import endpoints
 
 
 # pylint: disable=missing-function-docstring
 class ServerApiWrapper:
     """Zephyr Scale Server Api wrapper"""
-    def __init__(self, session: ZephyrSession):
+    def __init__(self, session: ZephyrScaleSession):
         self.session = session
         self.logger = logging.getLogger(__name__)
 
