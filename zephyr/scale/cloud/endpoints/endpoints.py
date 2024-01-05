@@ -1,3 +1,5 @@
+from typing import Union
+
 from ...zephyr_session import EndpointTemplate
 from .paths import CloudPaths as Paths
 
@@ -146,4 +148,105 @@ class TestCaseEndpoints(EndpointTemplate):
         json = {"mode": mode,
                 "items": items}
         return self.session.post(Paths.CASE_STEPS.format(test_case_key),
+                                 json=json)
+
+
+class TestCycleEndpoints(EndpointTemplate):
+    """
+    Api wrapper for "Test Cycle" endpoints
+
+    Details: https://support.smartbear.com/zephyr-scale-cloud/api-docs/#tag/Test-Cycles
+    """
+
+    def get_test_cycles(self, **kwargs):
+        """Retrieves all test cycles. Query parameters can be used to filter the results.
+
+        Keyword arguments:
+        :keyword projectKey: Jira project key filter
+        :keyword folderId: Folder ID filter
+        :keyword maxResults: A hint as to the maximum number of results to return in each call
+        :keyword startAt: Zero-indexed starting position. Should be a multiple of maxResults
+        :return: dict with response body
+        """
+        return self.session.get_paginated(Paths.CYCLES, params=kwargs)
+
+    def create_test_cycle(self, project_key: str, name: str, **kwargs):
+        """Creates a test cycle. All required test cycle custom fields should be present in the request.
+
+        :param project_key: Jira project key
+        :param name: test cycle name
+        :return: dict with response body
+        """
+        json = {"projectKey": project_key,
+                "name": name}
+        json.update(kwargs)
+        return self.session.post(Paths.CYCLES, json=json)
+
+    def get_test_cycle(self, test_cycle_id_or_key: Union[str, int]):
+        """
+        Returns a test cycle for the given key
+
+        :pqram test_cycle_id_or_key: The ID or key of the test cycle
+        :return: dict with response body
+        """
+        return self.session.get(Paths.CYCLE_KEY.format(test_cycle_id_or_key))
+
+    def update_test_cycle(self,
+                          test_cycle_key: str,
+                          test_cycle_id: int,
+                          name: str,
+                          project_id: str,
+                          status_id: str,
+                          **kwargs):
+        """
+        Updates an existing test cycle. If the project has test cycle
+        custom fields, all custom fields should be present in the request.
+        To leave any of them blank, please set them null
+        if they are not required custom fields.
+
+        :param test_cycle_key: The ID or key of the test cycle
+        :param test_cycle_id: integer id of the test cycle
+        :param name: Name of the Test Cycle
+        :param project_id: project id
+        :param status_id: status id
+        :return: dict with response body
+        """
+        json = {"id": test_cycle_id,
+                "key": test_cycle_key,
+                "name": name,
+                "project": {"id": project_id},
+                "status": {"id": status_id}}
+        json.update(kwargs)
+        return self.session.put(Paths.CYCLE_KEY, json=json)
+
+    def get_links(self, test_cycle_id_or_key: Union[str, int]):
+        """
+        Returns links for a test cycle with specified key
+
+        :param test_cycle_id_or_key: The ID or key of the test cycle
+        """
+        return self.session.get(Paths.CYCLE_LINKS.format(test_cycle_id_or_key))
+
+    def create_issue_links(self, test_cycle_id_or_key: Union[str, int], issue_id: int):
+        """
+        Creates a link between a test cycle and a Jira issue
+
+        :param test_cycle_id_or_key: The ID or key of the test cycle
+        :param issue_id: The id of the issue
+        :return: dict with response body
+        """
+        json = {"issueId": issue_id}
+        return self.session.post(Paths.CYCLE_ISSUES.format(test_cycle_id_or_key),
+                                 json=json)
+
+    def create_web_links(self, test_cycle_id_or_key: Union[str, int], url: str, **kwargs):
+        """
+        Creates a link between a test cycle and a generic URL
+
+        :param test_cycle_id_or_key: The ID or key of the test cycle
+        :param url: The web link URL
+        """
+        json = {"url": url}
+        json.update(kwargs)
+        return self.session.post(Paths.CYCLE_WEBLINKS.format(test_cycle_id_or_key),
                                  json=json)
