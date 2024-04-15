@@ -139,17 +139,13 @@ class TestRunEndpoints(EndpointTemplate):
         return self.session.post(Paths.RUN_TEST_RESULT.format(test_run_key, test_case_key),
                                  json=json)
 
-    def update_test_result(self, test_run_key, test_case_key, new_exec=True, **json):
+    def update_test_result(self, test_run_key, test_case_key, **json):
         """
         Updates the last Test Result on the specified Test Run, looking for an item that matches
         the testCaseKey and the query string filter parameters. Only defined fields will be updated.
         """
-        if new_exec:
-            return self.session.post(Paths.RUN_TEST_RESULT.format(test_run_key, test_case_key),
-                                     json=json)
-        else:
-            return self.session.put(Paths.RUN_TEST_RESULT.format(test_run_key, test_case_key),
-                                    json=json)
+        return self.session.put(Paths.RUN_TEST_RESULT.format(test_run_key, test_case_key),
+                                 json=json)
 
     def get_test_results(self, test_run_key):
         """Retrieve All Test Results linked to a Test Run"""
