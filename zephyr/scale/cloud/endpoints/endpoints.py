@@ -399,3 +399,92 @@ class TestExecutionEndpoints(EndpointTemplate):
         """
         return self.session.post(Paths.EXECUTIONS_ISSUES.format(test_execution_id_or_key),
                                  json={"issueId": issue_id})
+
+
+class FolderEndpoints(EndpointTemplate):
+    """Api wrapper for "Folder" endpoints"""
+
+    def get_folders(self, **kwargs):
+        """
+        Returns all folder.
+        """
+        return self.session.get_paginated(Paths.FOLDERS, params=kwargs)
+
+    def create_folder(self, name: str, project_key: str, folder_type: str, **kwargs):
+        """
+        Creates a folder.
+
+        :param name: folder name
+        :param project_key: Jira project key
+        :param folder_type: Folder type. Valid values: "TEST_CASE", "TEST_PLAN", "TEST_CYCLE"
+        :return: dict with response body
+        """
+        json = {"name": name,
+                "projectKey": project_key,
+                "folderType": folder_type}
+        json.update(kwargs)
+        return self.session.post(Paths.FOLDERS, json=json)
+
+    def get_folder(self, folder_id: int):
+        """
+        Returns a folder for the given ID.
+
+        :param folder_id: Folder ID
+        :return: dict with response body
+        """
+        return self.session.get(Paths.FOLDER_KEY.format(folder_id))
+
+
+class StatusEndpoints(EndpointTemplate):
+    """Api wrapper for "Status" endpoints"""
+
+    def get_statuses(self, **kwargs):
+        """Returns all statuses"""
+        return self.session.get_paginated(Paths.STATUSES, params=kwargs)
+
+    def create_status(self, project_key: str, status_name: str, status_type: str, **kwargs):
+        """
+        Creates a status.
+
+        :param project_key: Jira project key
+        :param status_name: The status name
+        :param status_type: The status type. Valid values: "TEST_CASE", "TEST_PLAN", "TEST_CYCLE", "TEST_EXECUTION"
+        :return: dict with response body
+        """
+        json = {"projectKey": project_key,
+                "name": status_name,
+                "type": status_type}
+        json.update(kwargs)
+        return self.session.post(Paths.STATUSES, json=json)
+
+    def get_status(self, status_id: int):
+        """
+        Returns a status for the given ID
+
+        :param status_id: Status ID
+        :return: dict with response body
+        """
+        return self.session.get(Paths.STATUSES_ID.format(status_id))
+
+    def update_status(self, status_id: int, project_id: int, status_name: str,
+                      index: int, archived: bool, default: bool, **kwargs):
+        """
+        Update an existing status. Please take into account that for each non-specified field
+        the value will be cleared.
+
+        :param status_id: Status ID
+        :param project_id: Project ID
+        :param status_name: The status name
+        :param index: The status index
+        :param archived: The status archived flag
+        :param default: The status default flag
+        :return: dict with response body
+        """
+        json = {"id": status_id,
+                "project": {"id": project_id},
+                "name": status_name,
+                "index": index,
+                "archived": archived,
+                "default": default}
+        json.update(kwargs)
+        return self.session.put(Paths.STATUSES_ID.format(status_id), json=json)
