@@ -588,9 +588,47 @@ class LinkEndpoints(EndpointTemplate):
 
 
 class IssueLinksEndpoints(EndpointTemplate):
-    """Api wrapper for "Issue Links" endpoints"""
+    """
+    Api wrapper for "Issue Links" endpoints
 
-    pass
+    Operations related to coverage of issue links.
+    """
+
+    def get_test_cases(self, issue_key: str):
+        """
+        Get test case keys and versions linked to the given Jira issue.
+
+        :param issue_key: The key of the Jira issue
+        :return: dict with response body
+        """
+        return self.session.get(Paths.ISLINKS_CASES.format(issue_key))
+
+    def get_test_cycles(self, issue_key: str):
+        """
+        Get test cycle IDs linked to the given Jira issue.
+
+        :param issue_key: The key of the Jira issue
+        :return: dict with response body
+        """
+        return self.session.get(Paths.ISLINKS_CYCLES.format(issue_key))
+
+    def get_test_plans(self, issue_key: str):
+        """
+        Get test plan IDs linked to the given Jira issue.
+
+        :param issue_key: The key of the Jira issue
+        :return: dict with response body
+        """
+        return self.session.get(Paths.ISLINKS_PLANS.format(issue_key))
+
+    def get_test_executions(self, issue_key: str):
+        """
+        Get test execution IDs linked to the given Jira issue.
+
+        :param issue_key: The key of the Jira issue
+        :return: dict with response body
+        """
+        return self.session.get(Paths.ISLINKS_EXECS.format(issue_key))
 
 
 class AutomationEndpoints(EndpointTemplate):
