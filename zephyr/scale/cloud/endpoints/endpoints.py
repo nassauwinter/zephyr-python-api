@@ -322,3 +322,80 @@ class TestPlanEndpoints(EndpointTemplate):
         """
         return self.session.post(Paths.PLAN_CYCLES.format(test_plan_key),
                                  json={"testCycleIdOrKey": test_cycle_id})
+
+
+class TestExecutionEndpoints(EndpointTemplate):
+    """Api wrapper for "Test Execution" endpoints"""
+
+    def get_test_executions(self, **kwargs):
+        """
+        Returns all test executions. Query parameters can be used to filter
+        by project and folder
+        """
+        return self.session.get_paginated(Paths.EXECUTIONS, params=kwargs)
+
+    def create_test_execution(self,
+                              project_key: str,
+                              test_case_key: str,
+                              test_cycle_key: str,
+                              status_name: str,
+                              **kwargs):
+        """
+        Creates a test execution. All required test execution custom fields
+        should be present in the request
+        """
+        json = {"projectKey": project_key,
+                "testCaseKey": test_case_key,
+                "testCycleKey": test_cycle_key,
+                "statusName": status_name}
+        json.update(kwargs)
+        return self.session.post(Paths.EXECUTIONS, json=json)
+
+    def get_test_execution(self, test_execution_id_or_key: Union[str, int], **kwargs):
+        """
+        Returns a test execution for the given ID
+
+        :param test_execution_id_or_key: The ID or key of the test execution.
+        Test execution keys are of the format [A-Z]+-E[0-9]+
+        :return: dict with response body
+        """
+        return self.session.get(Paths.EXECUTIONS_KEY.format(test_execution_id_or_key), params=kwargs)
+
+    def update_test_execution(self, test_execution_id_or_key: Union[str, int], **kwargs):
+        """
+        Update the test execution.
+
+        :param test_execution_id_or_key: The ID or key of the test execution.
+        Test execution keys are of the format [A-Z]+-E[0-9]+
+        :return: dict with response body
+        """
+        return self.session.put(Paths.EXECUTIONS_KEY.format(test_execution_id_or_key), json=kwargs)
+
+    def get_test_steps(self, test_execution_id_or_key: Union[str, int], **kwargs):
+        """
+        Returns the test steps for the given test execution. Provides a paged response.
+
+        :param test_execution_id_or_key: The ID or key of the test execution.
+        Test execution keys are of the format [A-Z]+-E[0-9]+
+        """
+        return self.session.get_paginated(Paths.EXECUTIONS_STEPS.format(test_execution_id_or_key),
+                                          params=kwargs)
+
+    def get_links(self, test_execution_id_or_key: Union[str, int]):
+        """
+        Returns links for a test execution with specified ID
+
+        :param test_execution_id_or_key: The ID or key of the test execution.
+        """
+        return self.session.get(Paths.EXECUTIONS_LINKS.format(test_execution_id_or_key))
+
+    def create_issue_links(self, test_execution_id_or_key: Union[str, int], issue_id: int):
+        """
+        Creates a link between a test execution and a Jira issue
+
+        :param test_execution_id_or_key: The ID or key of the test execution.
+        :param issue_id: The id of the issue
+        :return: dict with response body
+        """
+        return self.session.post(Paths.EXECUTIONS_ISSUES.format(test_execution_id_or_key),
+                                 json={"issueId": issue_id})

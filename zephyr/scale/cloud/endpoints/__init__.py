@@ -1,9 +1,9 @@
 from .endpoints import (TestCaseEndpoints,
                         TestCycleEndpoints,
-                        TestPlanEndpoints)
+                        TestPlanEndpoints,
+                        TestExecutionEndpoints)
 from .environments import EnvironmentEndpoints
 from .projects import ProjectEndpoints
-from .test_executions import TestExecutionEndpoints
 from .folders import FolderEndpoints
 from .statuses import StatusEndpoints
 from .priorities import PriorityEndpoints
