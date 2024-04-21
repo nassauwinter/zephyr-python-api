@@ -64,6 +64,10 @@ class CloudApiWrapper:
         return endpoints.LinkEndpoints(self.session)
 
     @property
+    def issue_links(self):
+        return endpoints.IssueLinksEndpoints(self.session)
+
+    @property
     def automations(self):
         return endpoints.AutomationEndpoints(self.session)
 
