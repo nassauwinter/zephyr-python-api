@@ -1,3 +1,4 @@
+from json import dumps
 from typing import Union
 
 from ...zephyr_session import EndpointTemplate
@@ -539,3 +540,178 @@ class PriorityEndpoints(EndpointTemplate):
                 "default": default}
         json.update(kwargs)
         return self.session.put(Paths.PRIORITIES_ID.format(priority_id), json=json)
+
+
+class EnvironmentEndpoints(EndpointTemplate):
+    """Api wrapper for "Environment" endpoints"""
+
+    def get_environments(self, **kwargs):
+        """Returns all environments"""
+        return self.session.get_paginated(Paths.ENVIRONMENTS, params=kwargs)
+
+    def get_environment(self, environment_id: int):
+        """
+        Returns an environment for the given ID
+
+        :param environment_id: Environment ID
+        :return: dict with response body
+        """
+        return self.session.get(Paths.ENVIRONMENTS_ID.format(environment_id))
+
+
+class ProjectEndpoints(EndpointTemplate):
+    """Api wrapper for "Project" endpoints"""
+
+    def get_projects(self):
+        """Returns all projects"""
+        return self.session.get_paginated(Paths.PROJECTS)
+
+    def get_project(self, project_id_or_key: Union[str, int]):
+        """
+        Returns a project for the given ID or key
+
+        :param project_id_or_key: The ID or key of the Jira project
+        """
+        return self.session.get(Paths.PROJECTS_KEY.format(project_id_or_key))
+
+
+class LinkEndpoints(EndpointTemplate):
+    """Api wrapper for "Link" endpoints"""
+
+    def delete_link(self, link_id: int):
+        """Deletes a link for the given ID.
+
+        :param link_id: The id of a link to delete
+        :return: dict with response body
+        """
+        return self.session.delete(Paths.LINKS_ID.format(link_id))
+
+
+class IssueLinksEndpoints(EndpointTemplate):
+    """Api wrapper for "Issue Links" endpoints"""
+
+    pass
+
+
+class AutomationEndpoints(EndpointTemplate):
+    """
+    Api wrapper for "Automation" endpoints.
+
+    Operations related to test case automations.
+    """
+
+    def _post_reports(self,
+                      path,
+                      project_key,
+                      file_path,
+                      auto_create=False,
+                      test_cycle=None,
+                      **kwargs):
+        """
+        Post various reports logic.
+
+        :param path: str with resource path
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        params = {'projectKey': project_key}
+        to_files = None
+
+        if auto_create:
+            params.update({'autoCreateTestCases': True})
+
+        if test_cycle:
+            to_files = {'testCycle': (None, dumps(test_cycle), 'application/json')}
+
+        return self.session.post_file(path,
+                                      file_path,
+                                      to_files=to_files,
+                                      params=params,
+                                      **kwargs)
+
+    def post_custom_format(self,
+                           project_key,
+                           file_path,
+                           auto_create=False,
+                           test_cycle=None,
+                           **kwargs):
+        """
+        Create results using Zephyr Scale's custom results format.
+
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        return self._post_reports(Paths.AUT_CUSTOM,
+                                  project_key=project_key,
+                                  file_path=file_path,
+                                  auto_create=auto_create,
+                                  test_cycle=test_cycle,
+                                  **kwargs)
+
+    def post_cucumber_format(self,
+                             project_key,
+                             file_path,
+                             auto_create=False,
+                             test_cycle=None,
+                             **kwargs):
+        """
+        Create results using the Cucumber results format.
+
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        return self._post_reports(Paths.AUT_CUCUMBER,
+                                  project_key=project_key,
+                                  file_path=file_path,
+                                  auto_create=auto_create,
+                                  test_cycle=test_cycle,
+                                  **kwargs)
+
+    def post_junit_xml_format(self,
+                              project_key,
+                              file_path,
+                              auto_create=False,
+                              test_cycle=None,
+                              **kwargs):
+        """
+        Create results using the JUnit XML results format.
+
+        :param project_key: str with project key
+        :param file_path: str with path to .zip archive with report files
+        :param auto_create: indicate if test cases should be created if non existent
+        :param test_cycle: dict with test cycle description data
+        """
+        return self._post_reports(Paths.AUT_JUNIT,
+                                  project_key=project_key,
+                                  file_path=file_path,
+                                  auto_create=auto_create,
+                                  test_cycle=test_cycle,
+                                  **kwargs)
+
+    def get_testcases_zip(self, project_key: str):
+        """
+        Retrieve a zip file containing Cucumber Feature Files that matches
+        the query passed as parameter.
+
+        :param project_key: Jira project key filter
+        """
+        params = {"projectKey": project_key}
+        headers = {"Accept": "application/zip"}
+        return self.session.get(Paths.AUT_CASES,
+                                return_raw=True,
+                                params=params,
+                                headers=headers)
+
+
+class HealthcheckEndpoints(EndpointTemplate):
+    """Api wrapper for "Healthcheck" endpoints"""
+
+    def get_health(self):
+        """Check the health of this API."""
+        return self.session.get(Paths.HEALTHCHECK)
