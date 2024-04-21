@@ -488,3 +488,54 @@ class StatusEndpoints(EndpointTemplate):
                 "default": default}
         json.update(kwargs)
         return self.session.put(Paths.STATUSES_ID.format(status_id), json=json)
+
+
+class PriorityEndpoints(EndpointTemplate):
+    """Api wrapper for "Priority" endpoints"""
+
+    def get_priorities(self, **kwargs):
+        """Returns all priorities"""
+        return self.session.get_paginated(Paths.PRIORITIES, params=kwargs)
+
+    def create_priority(self, project_key: str, priority_name: str, **kwargs):
+        """
+        Creates a priority.
+
+        :param project_key: Jira project key
+        :param priority_name: The priority name
+        :return: dict with response body
+        """
+        json = {"projectKey": project_key,
+                "name": priority_name}
+        json.update(kwargs)
+        return self.session.post(Paths.PRIORITIES, json=json)
+
+    def get_priority(self, priority_id: int):
+        """
+        Returns a priority for the given ID
+
+        :param priority_id: Priority ID
+        :return: dict with response body
+        """
+        return self.session.get(Paths.PRIORITIES_ID.format(priority_id))
+
+    def update_priority(self, priority_id: int, project_id: int, priority_name: str,
+                        index: int, default: bool, **kwargs):
+        """
+        Update an existing priority. Please take into account that for each non-specified field
+        the value will be cleared.
+
+        :param priority_id: Priority ID
+        :param project_id: Project ID
+        :param priority_name: The priority name
+        :param index: The priority index
+        :param default: The priority default flag
+        :return: dict with response body
+        """
+        json = {"id": priority_id,
+                "project": {"id": project_id},
+                "name": priority_name,
+                "index": index,
+                "default": default}
+        json.update(kwargs)
+        return self.session.put(Paths.PRIORITIES_ID.format(priority_id), json=json)

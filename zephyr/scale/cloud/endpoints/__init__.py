@@ -3,10 +3,10 @@ from .endpoints import (TestCaseEndpoints,
                         TestPlanEndpoints,
                         TestExecutionEndpoints,
                         FolderEndpoints,
-                        StatusEndpoints)
+                        StatusEndpoints,
+                        PriorityEndpoints)
 from .environments import EnvironmentEndpoints
 from .projects import ProjectEndpoints
-from .priorities import PriorityEndpoints
 from .links import LinkEndpoints
 from .healthcheck import HealthcheckEndpoints
 from .automations import AutomationEndpoints
