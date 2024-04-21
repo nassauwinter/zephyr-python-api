@@ -36,6 +36,7 @@ class CloudPaths:
     EXECUTIONS_KEY = "testexecutions/{}"
     EXECUTIONS_LINKS = "testexecutions/{}/links"
     EXECUTIONS_ISSUES = "testexecutions/{}/links/issues"
+    EXECUTIONS_STEPS = "testexecutions/{}/teststeps"
 
     # Folders
     FOLDERS = "folders"
