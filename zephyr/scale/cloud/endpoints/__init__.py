@@ -1,8 +1,8 @@
 from .endpoints import (TestCaseEndpoints,
-                        TestCycleEndpoints)
+                        TestCycleEndpoints,
+                        TestPlanEndpoints)
 from .environments import EnvironmentEndpoints
 from .projects import ProjectEndpoints
-from .test_plans import TestPlanEndpoints
 from .test_executions import TestExecutionEndpoints
 from .folders import FolderEndpoints
 from .statuses import StatusEndpoints
