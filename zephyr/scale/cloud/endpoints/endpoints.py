@@ -245,6 +245,7 @@ class TestCycleEndpoints(EndpointTemplate):
 
         :param test_cycle_id_or_key: The ID or key of the test cycle
         :param url: The web link URL
+        :return: dict with response body
         """
         json = {"url": url}
         json.update(kwargs)
