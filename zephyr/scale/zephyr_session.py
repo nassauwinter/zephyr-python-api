@@ -142,12 +142,15 @@ class ZephyrSession:
             response = self.get(endpoint, params=params)
             if "values" not in response:
                 return
-            for value in response.get("values", []):
-                yield value
+
+            yield from response.get("values", [])
+
             if response.get("isLast") is True:
                 break
+
             params_str = urlparse(response.get("next")).query
             params.update(parse_qs(params_str))
+
         return
 
     def post_file(self, endpoint: str, file_path: str, to_files=None, **kwargs):
