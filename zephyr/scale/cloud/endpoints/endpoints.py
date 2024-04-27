@@ -218,7 +218,7 @@ class TestCycleEndpoints(EndpointTemplate):
                 "project": {"id": project_id},
                 "status": {"id": status_id}}
         json.update(kwargs)
-        return self.session.put(Paths.CYCLE_KEY, json=json)
+        return self.session.put(Paths.CYCLE_KEY.format(test_cycle_key), json=json)
 
     def get_links(self, test_cycle_id_or_key: Union[str, int]):
         """
