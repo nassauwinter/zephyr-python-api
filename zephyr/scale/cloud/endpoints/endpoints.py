@@ -70,7 +70,7 @@ class TestCaseEndpoints(EndpointTemplate):
 
         :param test_case_key: The key of the test case
         :param test_case_id: integer id of the test
-        :param name: test case nae
+        :param name: test case name
         :param project_id: project id
         :param priority_id: priority id
         :param status_id: status id
@@ -407,7 +407,7 @@ class FolderEndpoints(EndpointTemplate):
 
     def get_folders(self, **kwargs):
         """
-        Returns all folder.
+        Returns all folders.
         """
         return self.session.get_paginated(Paths.FOLDERS, params=kwargs)
 
