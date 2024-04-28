@@ -172,7 +172,8 @@ class TestCycleEndpoints(EndpointTemplate):
         return self.session.get_paginated(Paths.CYCLES, params=kwargs)
 
     def create_test_cycle(self, project_key: str, name: str, **kwargs):
-        """Creates a test cycle. All required test cycle custom fields should be present in the request.
+        """Creates a test cycle. All required test cycle custom fields
+         should be present in the request.
 
         :param project_key: Jira project key
         :param name: test cycle name
@@ -269,7 +270,8 @@ class TestPlanEndpoints(EndpointTemplate):
         return self.session.get_paginated(Paths.PLANS, params=kwargs)
 
     def create_test_plan(self, project_key: str, name: str, **kwargs):
-        """Creates a test plan. All required test plan custom fields should be present in the request.
+        """Creates a test plan. All required test plan custom fields
+         should be present in the request.
 
         :param project_key: Jira project key
         :param name: test plan name
@@ -284,7 +286,7 @@ class TestPlanEndpoints(EndpointTemplate):
         """
         Returns a test plan for the given id or key.
 
-        :param test_plan_key: The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+
+        :param test_plan_key: The ID or key of the test plan
         :return: dict with response body
         """
         return self.session.get(Paths.PLAN_KEY.format(test_plan_key))
@@ -293,7 +295,7 @@ class TestPlanEndpoints(EndpointTemplate):
         """
         Creates a link between a test plan and a generic URL.
 
-        :param test_plan_key: The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+
+        :param test_plan_key: The ID or key of the test plan
         :param url: The web link URL
         :param description: The link description
         :return: dict with response body
@@ -306,7 +308,7 @@ class TestPlanEndpoints(EndpointTemplate):
         """
         Creates a link between a test plan and a Jira issue.
 
-        :param test_plan_key: The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+
+        :param test_plan_key: The ID or key of the test plan
         :param issue_id: The issue ID
         :return: dict with response body
         """
@@ -317,8 +319,8 @@ class TestPlanEndpoints(EndpointTemplate):
         """
         Creates a link between a test plan and a test cycle.
 
-        :param test_plan_key: The ID or key of the test plan. Test plan keys are of the format [A-Z]+-P[0-9]+
-        :param test_cycle_id: The ID or key of the test cycle. Test cycle keys are of the format [A-Z]+-R[0-9]+
+        :param test_plan_key: The ID or key of the test plan
+        :param test_cycle_id: The ID or key of the test cycle
         :return: dict with response body
         """
         return self.session.post(Paths.PLAN_CYCLES.format(test_plan_key),
@@ -356,11 +358,11 @@ class TestExecutionEndpoints(EndpointTemplate):
         """
         Returns a test execution for the given ID
 
-        :param test_execution_id_or_key: The ID or key of the test execution.
-        Test execution keys are of the format [A-Z]+-E[0-9]+
+        :param test_execution_id_or_key: The ID or key of the test execution
         :return: dict with response body
         """
-        return self.session.get(Paths.EXECUTIONS_KEY.format(test_execution_id_or_key), params=kwargs)
+        return self.session.get(Paths.EXECUTIONS_KEY.format(test_execution_id_or_key),
+                                params=kwargs)
 
     def update_test_execution(self, test_execution_id_or_key: Union[str, int], **kwargs):
         """
@@ -449,7 +451,8 @@ class StatusEndpoints(EndpointTemplate):
 
         :param project_key: Jira project key
         :param status_name: The status name
-        :param status_type: The status type. Valid values: "TEST_CASE", "TEST_PLAN", "TEST_CYCLE", "TEST_EXECUTION"
+        :param status_type: The status type.
+         Valid values: "TEST_CASE", "TEST_PLAN", "TEST_CYCLE", "TEST_EXECUTION"
         :return: dict with response body
         """
         json = {"projectKey": project_key,
