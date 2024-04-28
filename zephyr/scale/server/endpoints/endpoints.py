@@ -1,11 +1,5 @@
-from ...zephyr_session import ZephyrSession
+from ...zephyr_session import EndpointTemplate
 from .paths import ServerPaths as Paths
-
-
-class EndpointTemplate:
-    """Class with basic constructor for endpoint classes"""
-    def __init__(self, session: ZephyrSession):
-        self.session = session
 
 
 class TestCaseEndpoints(EndpointTemplate):
@@ -144,7 +138,7 @@ class TestRunEndpoints(EndpointTemplate):
         Updates the last Test Result on the specified Test Run, looking for an item that matches
         the testCaseKey and the query string filter parameters. Only defined fields will be updated.
         """
-        return self.session.post(Paths.RUN_TEST_RESULT.format(test_run_key, test_case_key),
+        return self.session.put(Paths.RUN_TEST_RESULT.format(test_run_key, test_case_key),
                                  json=json)
 
     def get_test_results(self, test_run_key):

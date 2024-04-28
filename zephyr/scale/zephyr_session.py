@@ -142,12 +142,15 @@ class ZephyrSession:
             response = self.get(endpoint, params=params)
             if "values" not in response:
                 return
-            for value in response.get("values", []):
-                yield value
+
+            yield from response.get("values", [])
+
             if response.get("isLast") is True:
                 break
+
             params_str = urlparse(response.get("next")).query
             params.update(parse_qs(params_str))
+
         return
 
     def post_file(self, endpoint: str, file_path: str, to_files=None, **kwargs):
@@ -167,3 +170,9 @@ class ZephyrSession:
                 files.update(to_files)
 
             return self._request("post", endpoint, files=files, **kwargs)
+
+
+class EndpointTemplate:
+    """Class with basic constructor for endpoint classes"""
+    def __init__(self, session: ZephyrSession):
+        self.session = session

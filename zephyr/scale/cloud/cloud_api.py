@@ -1,71 +1,76 @@
+"""
+A module with the Zephyr Scale Cloud Api wrapper class.
+"""
 import logging
 
 from zephyr.scale.zephyr_session import ZephyrSession
-from zephyr.scale.cloud.endpoints import (AutomationEndpoints,
-                                          EnvironmentEndpoints,
-                                          FolderEndpoints,
-                                          HealthcheckEndpoints,
-                                          LinkEndpoints,
-                                          PriorityEndpoints,
-                                          ProjectEndpoints,
-                                          StatusEndpoints,
-                                          TestCaseEndpoints,
-                                          TestCycleEndpoints,
-                                          TestExecutionEndpoints,
-                                          TestPlanEndpoints)
+from zephyr.scale.cloud import endpoints
 
 
 # pylint: disable=missing-function-docstring
 class CloudApiWrapper:
-    """Zephyr Scale Cloud Api wrapper. Contains wrappers by sections."""
+    """
+    Zephyr Scale Cloud Api wrapper class. It contains API endpoint wrappers for the Zephyr Scale
+    Cloud. The wrappers are grouped by the entity they are related to.
+    These wrapper groups are represented by the properties of the class.
+
+    For more details on the API endpoints see docs:
+    https://support.smartbear.com/zephyr-scale-cloud/api-docs/
+
+    :param session: ZephyrSession object with auth credentials
+    """
     def __init__(self, session: ZephyrSession):
         self.session = session
         self.logger = logging.getLogger(__name__)
 
     @property
     def test_cases(self):
-        return TestCaseEndpoints(self.session)
+        return endpoints.TestCaseEndpoints(self.session)
 
     @property
     def test_cycles(self):
-        return TestCycleEndpoints(self.session)
+        return endpoints.TestCycleEndpoints(self.session)
 
     @property
     def test_plans(self):
-        return TestPlanEndpoints(self.session)
+        return endpoints.TestPlanEndpoints(self.session)
 
     @property
     def test_executions(self):
-        return TestExecutionEndpoints(self.session)
+        return endpoints.TestExecutionEndpoints(self.session)
 
     @property
     def folders(self):
-        return FolderEndpoints(self.session)
+        return endpoints.FolderEndpoints(self.session)
 
     @property
     def statuses(self):
-        return StatusEndpoints(self.session)
+        return endpoints.StatusEndpoints(self.session)
 
     @property
     def priorities(self):
-        return PriorityEndpoints(self.session)
+        return endpoints.PriorityEndpoints(self.session)
 
     @property
     def environments(self):
-        return EnvironmentEndpoints(self.session)
+        return endpoints.EnvironmentEndpoints(self.session)
 
     @property
     def projects(self):
-        return ProjectEndpoints(self.session)
+        return endpoints.ProjectEndpoints(self.session)
 
     @property
     def links(self):
-        return LinkEndpoints(self.session)
+        return endpoints.LinkEndpoints(self.session)
+
+    @property
+    def issue_links(self):
+        return endpoints.IssueLinksEndpoints(self.session)
 
     @property
     def automations(self):
-        return AutomationEndpoints(self.session)
+        return endpoints.AutomationEndpoints(self.session)
 
     @property
     def healthcheck(self):
-        return HealthcheckEndpoints(self.session)
+        return endpoints.HealthcheckEndpoints(self.session)
