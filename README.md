@@ -9,7 +9,7 @@ This is a set of wrappers for Zephyr Scale (TM4J) REST API.
 This means you can interact with Zephyr Scale without GUI, access it with python code and create 
 automation scripts for your every day interactions.
 
-For more detailed information please see [the project's documentation](https://zephyr-python-api.readthedocs.io/en/main/index.html).
+For more detailed information please see [the project's documentation](https://zephyr-python-api.readthedocs.io/en/latest/index.html).
 
 To be done:
 * More usage examples
