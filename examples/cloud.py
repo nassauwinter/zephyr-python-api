@@ -11,6 +11,8 @@ logging.basicConfig(level=logging.DEBUG,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 # Now initialize the Zephyr Scale object with the token
+# How to generate a token:
+# https://support.smartbear.com/zephyr-scale-cloud/docs/en/rest-api/generating-api-access-tokens.html
 token = "my super secret token"
 
 zsc = ZephyrScale(token=token)
