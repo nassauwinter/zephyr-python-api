@@ -61,6 +61,7 @@ test_case = zapi.test_cases.get_test_case("<test_case_id>")
 # Create a test case
 creation_result = zapi.test_cases.create_test_case("<project_key>", "test_case_name")
 ```
+More examples for Cloud wrappers here: [examples/cloud.py](examples/cloud.py)
 
 ### License
 
